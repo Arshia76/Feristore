@@ -15,6 +15,9 @@ const CartReducer = (cart, action) => {
     case types.REMOVE_CART_SUCCESS:
       return cart.filter((product) => product._id !== action.payload);
 
+    case types.CLEAR_CART:
+      return (cart = []);
+
     default:
       return cart;
   }

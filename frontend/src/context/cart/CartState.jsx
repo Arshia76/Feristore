@@ -37,8 +37,16 @@ const CartState = (props) => {
     });
   };
 
+  const clearCart = () => {
+    dispatch({
+      type: types.CLEAR_CART,
+    });
+  };
+
   return (
-    <CartContext.Provider value={{ cart: cart, addCart, removeCart }}>
+    <CartContext.Provider
+      value={{ cart: cart, addCart, removeCart, clearCart }}
+    >
       {props.children}
     </CartContext.Provider>
   );
