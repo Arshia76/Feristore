@@ -19,6 +19,7 @@ import { Link, useHistory } from 'react-router-dom';
 import CartContext from '../context/cart/CartContext';
 import AuthContext from '../context/auth/AuthContext';
 import SearchContext from '../context/search/SearchContext';
+import { Box } from '@material-ui/core';
 
 const MenuItem = withStyles({
   root: {
@@ -179,7 +180,7 @@ const NavBar = ({ handleOpen }) => {
       onClose={handleMobileMenuClose}
     >
       {!authContext.isAuthenticated && (
-        <Fragment>
+        <Box>
           <Link to='/login' style={{ color: 'black', textDecoration: 'none' }}>
             <MenuItem style={{ direction: 'rtl' }}>
               <IconButton
@@ -205,7 +206,7 @@ const NavBar = ({ handleOpen }) => {
               <p>ثبت نام</p>
             </MenuItem>
           </Link>
-        </Fragment>
+        </Box>
       )}
       <Link to='/cart' style={{ color: 'black', textDecoration: 'none' }}>
         <MenuItem style={{ direction: 'rtl' }}>
