@@ -53,12 +53,6 @@ const AuthReducer = (state, action) => {
         user: null,
       };
 
-    case types.SET_LOADING:
-      return {
-        ...state,
-        loading: true,
-      };
-
     case types.LOGOUT:
       localStorage.removeItem('auth-token');
       return {
@@ -69,7 +63,6 @@ const AuthReducer = (state, action) => {
         loading: false,
         user: null,
       };
-
     case types.LOAD_USER:
       return {
         ...state,

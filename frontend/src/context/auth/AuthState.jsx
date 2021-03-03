@@ -9,7 +9,7 @@ const AuthState = (props) => {
     token: null,
     isAuthenticated: false,
     error: null,
-    loading: false,
+    loading: true,
     user: null,
     id: null,
     isAdmin: false,
@@ -18,7 +18,6 @@ const AuthState = (props) => {
   const [state, dispatch] = useReducer(AuthReducer, initialState);
 
   const register = async (formData) => {
-    setLoding();
     try {
       const res = await axios.post('/api/auth/register', formData, {
         headers: {
@@ -40,7 +39,6 @@ const AuthState = (props) => {
 
   const login = async (formData) => {
     try {
-      setLoding();
       const res = await axios.post('/api/auth/login', formData, {
         headers: {
           'Content-Type': 'application/json',
@@ -74,12 +72,6 @@ const AuthState = (props) => {
     dispatch({
       type: types.LOAD_USER,
       payload: res.data,
-    });
-  };
-
-  const setLoding = () => {
-    dispatch({
-      type: types.SET_LOADING,
     });
   };
 

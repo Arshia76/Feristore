@@ -73,6 +73,7 @@ const Register = ({ history }) => {
     authContext.clearErrors();
     userContext.getUser(authContext.id);
     authContext.isAuthenticated && history.push('/');
+    //eslint-disable-next-line
   }, [authContext.error, authContext.isAuthenticated, authContext.id]);
 
   const submit = (e) => {
@@ -88,7 +89,7 @@ const Register = ({ history }) => {
   };
 
   return (
-    <Container className={classes.root} fluid maxWidth='xl'>
+    <Container className={classes.root} maxWidth='xl'>
       <Box className={classes.box}>
         <Typography className={classes.text} variant='h4'>
           ثبت نام
