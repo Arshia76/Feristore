@@ -22,7 +22,7 @@ const ProductReducer = (state, action) => {
         ...state,
         loading: false,
         error: null,
-        products: action.payload,
+        specialProducts: action.payload,
       };
 
     case types.GET_SPECIAL_PRODUCTS_FAIL:
@@ -37,7 +37,7 @@ const ProductReducer = (state, action) => {
         ...state,
         loading: false,
         error: null,
-        products: action.payload,
+        newProducts: action.payload,
       };
 
     case types.GET_NEW_PRODUCTS_FAIL:
@@ -140,7 +140,7 @@ const ProductReducer = (state, action) => {
         ...state,
         error: null,
         loading: false,
-        discountProducts: action.payload,
+        discountedProducts: action.payload,
       };
 
     case types.GET_DISCOUNTS_FAIL:

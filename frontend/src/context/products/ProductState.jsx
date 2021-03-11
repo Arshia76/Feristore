@@ -7,10 +7,13 @@ import * as types from '../Types';
 const ProductState = (props) => {
   const initialState = {
     error: null,
-    loading: false,
+    loading: true,
     products: [],
     product: {},
     message: '',
+    newProducts: [],
+    specialProducts: [],
+    discountedProducts: [],
   };
 
   const [state, dispatch] = useReducer(ProductReducer, initialState);
@@ -32,7 +35,8 @@ const ProductState = (props) => {
 
   const getDiscountProducts = async () => {
     try {
-      const res = await axios.get('/api/products/discount');
+      const res = await axios.get('/api/products/discount/products');
+
       dispatch({
         type: types.GET_DISCOUNTS_SUCCESS,
         payload: res.data,
@@ -181,9 +185,11 @@ const ProductState = (props) => {
         error: state.error,
         loading: state.loading,
         products: state.products,
+        specialProducts: state.specialProducts,
+        newProducts: state.newProducts,
+        discountedProducts: state.discountedProducts,
         product: state.product,
         message: state.message,
-        cart: state.cart,
         getAllProducts,
         getNewProducts,
         getProductByCategory,

@@ -8,14 +8,13 @@ const UserState = (props) => {
   const initialState = {
     user: null,
     error: null,
-    loading: false,
+    loading: true,
     users: [],
   };
 
   const [state, dispatch] = useReducer(UserReducer, initialState);
 
   const getUser = async (id) => {
-    setLoding();
     try {
       const res = await axios.get(`/api/users/${id}`, {
         headers: {
@@ -35,7 +34,6 @@ const UserState = (props) => {
   };
 
   const getUsers = async () => {
-    setLoding();
     try {
       const res = await axios.get('/api/users', {
         headers: {
@@ -55,7 +53,6 @@ const UserState = (props) => {
   };
 
   const updateUser = async (id, data) => {
-    setLoding();
     try {
       const res = await axios.put(`/api/users/${id}/update`, data, {
         headers: {
@@ -76,7 +73,6 @@ const UserState = (props) => {
   };
 
   const deleteUser = async (id) => {
-    setLoding();
     try {
       const res = await axios.delete(`/api/users/${id}/delete`, {
         headers: {
@@ -93,12 +89,6 @@ const UserState = (props) => {
         payload: err.response.data,
       });
     }
-  };
-
-  const setLoding = () => {
-    dispatch({
-      type: types.SET_LOADING,
-    });
   };
 
   const clearErrors = () => {

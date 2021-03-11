@@ -6,7 +6,7 @@ import SearchReducer from './SearchReducer';
 
 const SearchState = (props) => {
   const initialState = {
-    loading: false,
+    loading: true,
     error: null,
     search: [],
   };

@@ -6,7 +6,7 @@ import axios from 'axios';
 
 const CategoryState = (props) => {
   const initialState = {
-    loading: false,
+    loading: true,
     error: null,
     message: '',
     category: [],

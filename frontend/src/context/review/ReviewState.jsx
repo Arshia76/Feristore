@@ -6,7 +6,7 @@ import * as types from '../Types';
 
 const ReviewState = (props) => {
   const initialState = {
-    loading: false,
+    loading: true,
     error: null,
     reviews: [],
     message: '',

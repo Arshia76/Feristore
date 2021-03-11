@@ -33,12 +33,6 @@ const UserReducer = (state, action) => {
         error: action.payload,
       };
 
-    case types.SET_LOADING:
-      return {
-        ...state,
-        loading: true,
-      };
-
     case types.CLEAR_ERRORS: {
       return {
         ...state,
