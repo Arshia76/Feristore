@@ -5,8 +5,8 @@ const connectDB = require('./config/db');
 const app = express();
 
 app.use(cors());
-app.use(express.json({ extended: true }));
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use('/backend/uploads', express.static('./backend/uploads'));
 
 connectDB();
@@ -16,6 +16,7 @@ app.use('/api/products', require('./routes/products'));
 app.use('/api/users', require('./routes/users'));
 app.use('/api/categories', require('./routes/category'));
 app.use('/api/reviews', require('./routes/review'));
+app.use('/api/orders', require('./routes/orders'));
 
 const PORT = process.env.PORT || 5000;
 

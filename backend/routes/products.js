@@ -261,7 +261,7 @@ router.get('/search/product/:product', async (req, res) => {
   }
 });
 
-router.get('/discount', async (req, res) => {
+router.get('/discount/products', async (req, res) => {
   try {
     const data = await Product.find({ isDiscount: true });
     return res.status(200).json(data);

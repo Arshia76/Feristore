@@ -7,10 +7,12 @@ const OrderSchema = new mongoose.Schema({
       required: true,
       trim: true,
     },
+
     email: {
       type: String,
       required: true,
       trim: true,
+      ref: 'Users',
     },
 
     phoneNumber: {
@@ -38,7 +40,7 @@ const OrderSchema = new mongoose.Schema({
       },
 
       productImage: {
-        type: Number,
+        type: String,
         required: true,
       },
     },
@@ -51,7 +53,7 @@ const OrderSchema = new mongoose.Schema({
       trim: true,
     },
     postalCode: {
-      type: String,
+      type: Number,
       required: true,
       trim: true,
     },
@@ -61,7 +63,24 @@ const OrderSchema = new mongoose.Schema({
       trim: true,
     },
   },
+
+  totalPrice: {
+    type: Number,
+    required: true,
+  },
+
+  productPrice: {
+    type: Number,
+    required: true,
+  },
+
+  payDate: {
+    type: String,
+  },
+
+  sentDate: {
+    type: String,
+  },
 });
 
-module.exports =
-  mongoose.models('Order') || mongoose.model('Order', OrderSchema);
+module.exports = mongoose.models.Order || mongoose.model('Order', OrderSchema);
