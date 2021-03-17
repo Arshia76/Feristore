@@ -12,6 +12,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import InfoIcon from '@material-ui/icons/Info';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import Loader from '../Loader/Loader';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -51,6 +52,7 @@ const CategoryTable = () => {
         categoryContext.error.msg || categoryContext.error.errors[0].msg
       );
     }
+    //eslint-disable-next-line
   }, [categoryContext.category, categoryContext.error]);
   return (
     <TableContainer>
@@ -62,43 +64,47 @@ const CategoryTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {categoryContext.category.map((row) => (
-            <StyledTableRow key={row.category}>
-              <StyledTableCell align='center'>{row.category}</StyledTableCell>
-              <StyledTableCell align='center'>
-                <EditIcon
-                  style={{ cursor: 'pointer' }}
-                  onClick={() =>
-                    history.push({
-                      pathname: '/admin/category/manage',
-                      state: {
-                        category: row,
-                        type: 'بروز رسانی',
-                      },
-                    })
-                  }
-                />
-                <DeleteIcon
-                  style={{
-                    marginRight: '.5rem',
-                    color: 'red',
-                    cursor: 'pointer',
-                  }}
-                  onClick={() => {
-                    categoryContext.deleteCategory(row._id);
-                  }}
-                />
-                <InfoIcon
-                  style={{
-                    marginRight: '.5rem',
-                    color: 'blue',
-                    cursor: 'pointer',
-                  }}
-                  onClick={() => history.push(`/categories/${row.category}`)}
-                />
-              </StyledTableCell>
-            </StyledTableRow>
-          ))}
+          {categoryContext.loading ? (
+            <Loader />
+          ) : (
+            categoryContext.category.map((row) => (
+              <StyledTableRow key={row.category}>
+                <StyledTableCell align='center'>{row.category}</StyledTableCell>
+                <StyledTableCell align='center'>
+                  <EditIcon
+                    style={{ cursor: 'pointer' }}
+                    onClick={() =>
+                      history.push({
+                        pathname: '/admin/category/manage',
+                        state: {
+                          category: row,
+                          type: 'بروز رسانی',
+                        },
+                      })
+                    }
+                  />
+                  <DeleteIcon
+                    style={{
+                      marginRight: '.5rem',
+                      color: 'red',
+                      cursor: 'pointer',
+                    }}
+                    onClick={() => {
+                      categoryContext.deleteCategory(row._id);
+                    }}
+                  />
+                  <InfoIcon
+                    style={{
+                      marginRight: '.5rem',
+                      color: 'blue',
+                      cursor: 'pointer',
+                    }}
+                    onClick={() => history.push(`/categories/${row.category}`)}
+                  />
+                </StyledTableCell>
+              </StyledTableRow>
+            ))
+          )}
         </TableBody>
       </MyTable>
     </TableContainer>

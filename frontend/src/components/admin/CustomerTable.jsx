@@ -8,6 +8,7 @@ import TableRow from '@material-ui/core/TableRow';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import UserContext from '../../context/users/UserContext';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Loader from '../Loader/Loader';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -41,6 +42,7 @@ const CustomerTable = () => {
 
   useEffect(() => {
     userContext.getUsers();
+    //eslint-disable-next-line
   }, [userContext.users]);
   return (
     <TableContainer>
@@ -53,24 +55,28 @@ const CustomerTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {userContext.users.map((row) => (
-            <StyledTableRow key={row.name}>
-              <StyledTableCell align='right'>{row.username}</StyledTableCell>
-              <StyledTableCell align='right'>{row.email}</StyledTableCell>
-              <StyledTableCell align='right'>
-                <DeleteIcon
-                  style={{
-                    marginRight: '.5rem',
-                    color: 'red',
-                    cursor: 'pointer',
-                  }}
-                  onClick={() => {
-                    userContext.deleteUser(row._id);
-                  }}
-                />
-              </StyledTableCell>
-            </StyledTableRow>
-          ))}
+          {userContext.loading ? (
+            <Loader />
+          ) : (
+            userContext.users.map((row) => (
+              <StyledTableRow key={row.name}>
+                <StyledTableCell align='right'>{row.username}</StyledTableCell>
+                <StyledTableCell align='right'>{row.email}</StyledTableCell>
+                <StyledTableCell align='right'>
+                  <DeleteIcon
+                    style={{
+                      marginRight: '.5rem',
+                      color: 'red',
+                      cursor: 'pointer',
+                    }}
+                    onClick={() => {
+                      userContext.deleteUser(row._id);
+                    }}
+                  />
+                </StyledTableCell>
+              </StyledTableRow>
+            ))
+          )}
         </TableBody>
       </MyTable>
     </TableContainer>

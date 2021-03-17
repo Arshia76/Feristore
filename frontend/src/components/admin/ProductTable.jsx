@@ -13,6 +13,7 @@ import CommentIcon from '@material-ui/icons/Comment';
 import ProductContext from '../../context/products/ProductContext';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import Loader from '../Loader/Loader';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -51,6 +52,7 @@ const ProductTable = () => {
         productContext.error.msg || productContext.error.errors[0].msg
       );
     }
+    //eslint-disable-next-line
   }, [productContext.products, productContext.error]);
   return (
     <TableContainer>
@@ -64,62 +66,66 @@ const ProductTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {productContext.products.map((row) => (
-            <StyledTableRow key={row.name}>
-              <StyledTableCell align='right'>{row.name}</StyledTableCell>
-              <StyledTableCell align='right'>{row.price}</StyledTableCell>
-              <StyledTableCell align='right'>{row.category}</StyledTableCell>
-              <StyledTableCell align='right'>
-                <EditIcon
-                  style={{ cursor: 'pointer' }}
-                  onClick={() =>
-                    history.push({
-                      pathname: '/admin/product/manage',
-                      state: {
-                        name: row.name,
-                        price: row.price,
-                        description: row.description,
-                        countInStock: row.countInStock,
-                        productImage: row.productImage,
-                        carousel: row.carousel,
-                        special: row.special,
-                        category: row.category,
-                        id: row._id,
-                        discount: row.discount,
-                        type: 'بروز رسانی',
-                      },
-                    })
-                  }
-                />
-                <DeleteIcon
-                  style={{
-                    marginRight: '.5rem',
-                    color: 'red',
-                    cursor: 'pointer',
-                  }}
-                  onClick={() => {
-                    productContext.deleteProduct(row._id);
-                  }}
-                />
-                <InfoIcon
-                  style={{
-                    marginRight: '.5rem',
-                    color: 'blue',
-                    cursor: 'pointer',
-                  }}
-                  onClick={() => history.push(`/detail/${row._id}`)}
-                />
-                <CommentIcon
-                  style={{
-                    marginRight: '.5rem',
-                    color: 'green',
-                    cursor: 'pointer',
-                  }}
-                  onClick={() => history.push(`/product/${row._id}/comments`)}
-                />
-              </StyledTableCell>
-            </StyledTableRow>
-          ))}
+          {productContext.loading ? (
+            <Loader />
+          ) : (
+            productContext.products.map((row) => (
+              <StyledTableRow key={row.name}>
+                <StyledTableCell align='right'>{row.name}</StyledTableCell>
+                <StyledTableCell align='right'>{row.price}</StyledTableCell>
+                <StyledTableCell align='right'>{row.category}</StyledTableCell>
+                <StyledTableCell align='right'>
+                  <EditIcon
+                    style={{ cursor: 'pointer' }}
+                    onClick={() =>
+                      history.push({
+                        pathname: '/admin/product/manage',
+                        state: {
+                          name: row.name,
+                          price: row.price,
+                          description: row.description,
+                          countInStock: row.countInStock,
+                          productImage: row.productImage,
+                          carousel: row.carousel,
+                          special: row.special,
+                          category: row.category,
+                          id: row._id,
+                          discount: row.discount,
+                          type: 'بروز رسانی',
+                        },
+                      })
+                    }
+                  />
+                  <DeleteIcon
+                    style={{
+                      marginRight: '.5rem',
+                      color: 'red',
+                      cursor: 'pointer',
+                    }}
+                    onClick={() => {
+                      productContext.deleteProduct(row._id);
+                    }}
+                  />
+                  <InfoIcon
+                    style={{
+                      marginRight: '.5rem',
+                      color: 'blue',
+                      cursor: 'pointer',
+                    }}
+                    onClick={() => history.push(`/detail/${row._id}`)}
+                  />
+                  <CommentIcon
+                    style={{
+                      marginRight: '.5rem',
+                      color: 'green',
+                      cursor: 'pointer',
+                    }}
+                    onClick={() => history.push(`/product/${row._id}/comments`)}
+                  />
+                </StyledTableCell>
+              </StyledTableRow>
+            ))
+          )}
         </TableBody>
       </MyTable>
     </TableContainer>
