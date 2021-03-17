@@ -9,6 +9,7 @@ import { withStyles, makeStyles } from '@material-ui/core/styles';
 import ReviewContext from '../../context/review/ReviewContext';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { toast } from 'react-toastify';
+import Loader from '../../components/Loader/Loader';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -59,31 +60,35 @@ const Comment = ({ match }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {reviewContext.reviews.map((row) => (
-            <StyledTableRow key={row._id}>
-              <StyledTableCell align='right'>{row.reviewer}</StyledTableCell>
-              <StyledTableCell
-                align='right'
-                style={{ wordBreak: 'break-word' }}
-              >
-                {row.review}
-              </StyledTableCell>
+          {reviewContext.loading ? (
+            <Loader />
+          ) : (
+            reviewContext.reviews.map((row) => (
+              <StyledTableRow key={row._id}>
+                <StyledTableCell align='right'>{row.reviewer}</StyledTableCell>
+                <StyledTableCell
+                  align='right'
+                  style={{ wordBreak: 'break-word' }}
+                >
+                  {row.review}
+                </StyledTableCell>
 
-              <StyledTableCell align='right'>{row.rating}</StyledTableCell>
-              <StyledTableCell align='right'>
-                <DeleteIcon
-                  style={{
-                    marginRight: '.5rem',
-                    color: 'red',
-                    cursor: 'pointer',
-                  }}
-                  onClick={() =>
-                    reviewContext.deleteComment(match.params.id, row._id)
-                  }
-                />
-              </StyledTableCell>
-            </StyledTableRow>
-          ))}
+                <StyledTableCell align='right'>{row.rating}</StyledTableCell>
+                <StyledTableCell align='right'>
+                  <DeleteIcon
+                    style={{
+                      marginRight: '.5rem',
+                      color: 'red',
+                      cursor: 'pointer',
+                    }}
+                    onClick={() =>
+                      reviewContext.deleteComment(match.params.id, row._id)
+                    }
+                  />
+                </StyledTableCell>
+              </StyledTableRow>
+            ))
+          )}
         </TableBody>
       </MyTable>
     </TableContainer>

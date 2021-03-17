@@ -24,6 +24,8 @@ const useStyles = makeStyles((theme) => ({
 
   drawer: {
     width: '100%',
+    overflowX: 'hidden',
+    overflowY: 'auto',
     [theme.breakpoints.up('sm')]: {
       width: '25%',
     },
@@ -62,7 +64,8 @@ const Drawer = ({ open, handleClose }) => {
 
   useEffect(() => {
     categoryContext.getCategories();
-  }, []);
+    //eslint-disable-next-line
+  }, [`${categoryContext.category}`]);
   return (
     <MuiDrawer
       classes={{
@@ -82,8 +85,8 @@ const Drawer = ({ open, handleClose }) => {
         {!authContext.isAdmin &&
           categoryContext.category.map((category) => {
             return (
-              <Link to={`/categories/${category.category}`}>
-                <ListItemText key={category._id} className={classes.listItem}>
+              <Link to={`/categories/${category.category}`} key={category._id}>
+                <ListItemText className={classes.listItem}>
                   {category.category}
                 </ListItemText>
               </Link>

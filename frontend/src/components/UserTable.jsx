@@ -6,6 +6,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -31,41 +32,40 @@ const useStyles = makeStyles({
     width: '75%',
     direction: 'rtl',
   },
+  link: {
+    display: 'inline-block',
+    padding: '.2rem .5rem',
+    textDecoration: 'none',
+    color: 'white',
+    backgroundColor: 'black',
+    cursor: 'pointer',
+  },
 });
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
 
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
-const UserTable = () => {
+const UserTable = ({ orders }) => {
   const classes = useStyles();
   return (
     <TableContainer>
       <MyTable className={classes.table} aria-label='customized table'>
         <TableHead>
           <TableRow>
-            <StyledTableCell align='right'>نام کاربر</StyledTableCell>
-            <StyledTableCell align='right'>نام محصول</StyledTableCell>
-            <StyledTableCell align='right'>قیمت محصول</StyledTableCell>
-            <StyledTableCell align='right'>تعداد محصول</StyledTableCell>
-            <StyledTableCell align='right'>وضعیت پرداخت</StyledTableCell>
-            <StyledTableCell align='right'>وضعیت تحویل</StyledTableCell>
+            <StyledTableCell align='right'>ای دی</StyledTableCell>
+            <StyledTableCell align='right'>تاریخ پرداخت</StyledTableCell>
+            <StyledTableCell align='right'>تاریخ ارسال</StyledTableCell>
+            <StyledTableCell align='right'>جزئیات</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <StyledTableRow key={row.name}>
-              <StyledTableCell align='right'>{row.name}</StyledTableCell>
-              <StyledTableCell align='right'>{row.calories}</StyledTableCell>
-              <StyledTableCell align='right'>{row.fat}</StyledTableCell>
-              <StyledTableCell align='right'>{row.carbs}</StyledTableCell>
-              <StyledTableCell align='right'>{row.protein}</StyledTableCell>
+          {orders.map((row) => (
+            <StyledTableRow key={row._id}>
+              <StyledTableCell align='right'>{row._id}</StyledTableCell>
+              <StyledTableCell align='right'>{row.payDate}</StyledTableCell>
+              <StyledTableCell align='right'>{row.sentDate}</StyledTableCell>
+              <StyledTableCell align='right'>
+                <Link className={classes.link} to={`/orderDetail/${row._id}`}>
+                  جزئیات
+                </Link>
+              </StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

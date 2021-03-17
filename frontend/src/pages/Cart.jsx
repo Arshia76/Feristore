@@ -57,7 +57,7 @@ const Cart = ({ history }) => {
   const cartContext = useContext(CartContext);
 
   return (
-    <Container className={classes.root} fluid>
+    <Container className={classes.root} maxWidth='lg'>
       <Grid spacing={2} container>
         <Grid
           justify='flex-end'

@@ -25,8 +25,8 @@ const useStyles = makeStyles({
     height: '100%',
   },
   image: {
-    height: '15rem',
     width: '100%',
+    height: '20rem',
   },
 
   button: {

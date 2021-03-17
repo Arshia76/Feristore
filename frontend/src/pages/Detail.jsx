@@ -73,7 +73,7 @@ const useStyles = makeStyles({
 
   img: {
     width: '40%',
-    height: '60vh',
+    height: '25rem',
   },
 
   middle: {
@@ -82,7 +82,7 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    height: '40vh',
+    height: '20rem',
   },
 
   third: {
@@ -151,6 +151,7 @@ const Detail = ({ match }) => {
     if (reviewContext.error) {
       toast.error(reviewContext.error.msg || reviewContext.error.errors[0].msg);
     }
+    //eslint-disable-next-line
   }, [match.params.id, reviewContext.reviews, reviewContext.error]);
 
   const [stock, setStock] = React.useState(1);
@@ -223,7 +224,11 @@ const Detail = ({ match }) => {
 
                 {[...Array(productContext.product.countInStock).keys()].map(
                   (e) => {
-                    return <MenuItem value={e + 1}>{e + 1}</MenuItem>;
+                    return (
+                      <MenuItem key={e} value={e + 1}>
+                        {e + 1}
+                      </MenuItem>
+                    );
                   }
                 )}
               </Select>
@@ -266,7 +271,7 @@ const Detail = ({ match }) => {
             marginBottom: '1rem',
             height: '60vh',
             overflowX: 'hidden',
-            overflowY: 'scroll',
+            overflowY: 'auto',
             scrollbarColor: '#a4b0bd #d5d9df',
           }}
         >
@@ -303,7 +308,7 @@ const Detail = ({ match }) => {
           </Typography>
           <ReactStars
             half={false}
-            value={state.rating}
+            value={parseInt(state.rating)}
             color2={'#ffd700'}
             count={5}
             size={24}

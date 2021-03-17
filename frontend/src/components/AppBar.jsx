@@ -151,7 +151,7 @@ const NavBar = ({ handleOpen }) => {
       <MenuItem onClick={handleMenuClose}>
         <Link
           style={{ textDecoration: 'none', color: 'black' }}
-          to='/name/orders'
+          to={`/${authContext.id}/orders`}
         >
           محصولات من
         </Link>
@@ -163,7 +163,9 @@ const NavBar = ({ handleOpen }) => {
           handleMenuClose();
         }}
       >
-        <Link style={{ textDecoration: 'none', color: 'black' }}>خروج</Link>
+        <Link to='/' style={{ textDecoration: 'none', color: 'black' }}>
+          خروج
+        </Link>
       </MenuItem>
     </Menu>
   );

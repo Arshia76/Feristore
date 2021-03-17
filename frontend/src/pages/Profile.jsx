@@ -107,7 +107,7 @@ const Profile = () => {
   };
 
   return (
-    <Container className={classes.root} fluid maxWidth='xl'>
+    <Container className={classes.root} maxWidth='xl'>
       <Box className={classes.box}>
         <Typography className={classes.text} variant='h4'>
           مشخصات
@@ -137,7 +137,7 @@ const Profile = () => {
             value={state.password}
             onChange={onChange}
             type='password'
-            label='رمز عیور فعلی'
+            label='رمز عبور فعلی'
             inputProps={{ style: { textAlign: 'right' } }}
             variant='outlined'
           />
@@ -147,7 +147,7 @@ const Profile = () => {
             value={state.newPassword}
             onChange={onChange}
             type='password'
-            label='رمز عیور جدید'
+            label='رمز عبور جدید'
             inputProps={{ style: { textAlign: 'right' } }}
             variant='outlined'
           />

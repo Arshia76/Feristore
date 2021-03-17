@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
   Container,
   TextField,
@@ -9,6 +9,10 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import UserContext from '../context/users/UserContext';
+import AuthContext from '../context/auth/AuthContext';
+import OrderContext from '../context/orders/OrderContext';
 
 const useStyles = makeStyles({
   root: {
@@ -58,11 +62,14 @@ const useStyles = makeStyles({
 
 const OrderInformation = () => {
   const classes = useStyles();
+  const userContext = useContext(UserContext);
+  const authContext = useContext(AuthContext);
+  const orderContext = useContext(OrderContext);
+
   const history = useHistory();
   const [state, setState] = useState({
-    name: localStorage.getItem('personInfo')
-      ? JSON.parse(localStorage.getItem('personInfo')).name
-      : '',
+    name: userContext.user && userContext.user.username,
+    email: userContext.user && userContext.user.email,
     address: localStorage.getItem('personInfo')
       ? JSON.parse(localStorage.getItem('personInfo')).address
       : '',
@@ -77,6 +84,29 @@ const OrderInformation = () => {
       : '',
   });
 
+  useEffect(() => {
+    orderContext.clearOrder();
+    //eslint-disable-next-line
+  }, [orderContext.order]);
+
+  useEffect(() => {
+    userContext.getUser(authContext.id);
+
+    setState({
+      ...state,
+      name: userContext.user && userContext.user.username,
+      email: userContext.user && userContext.user.email,
+    });
+    //eslint-disable-next-line
+  }, [authContext.id, userContext.user]);
+
+  useEffect(() => {
+    if (state.name === '' || state.email === '') {
+      history.push('/cart');
+    }
+    //eslint-disable-next-line
+  }, [state.name, state.email]);
+
   const onChange = (e) => {
     setState({
       ...state,
@@ -84,7 +114,7 @@ const OrderInformation = () => {
     });
   };
   return (
-    <Container className={classes.root} fluid maxWidth='xl'>
+    <Container className={classes.root} maxWidth='xl'>
       <Box className={classes.box}>
         <Typography className={classes.text} variant='h4'>
           مشخصات
@@ -97,7 +127,16 @@ const OrderInformation = () => {
             value={state.name}
             inputProps={{ style: { textAlign: 'right' } }}
             variant='outlined'
-            onChange={onChange}
+            readOnly
+          />
+          <TextField
+            name='email'
+            type='email'
+            label='ایمیل'
+            value={state.email}
+            inputProps={{ style: { textAlign: 'right' } }}
+            variant='outlined'
+            readOnly
           />
           <TextField
             name='phoneNumber'
@@ -142,8 +181,19 @@ const OrderInformation = () => {
           <Button
             onClick={(e) => {
               e.preventDefault();
-              localStorage.setItem('personInfo', JSON.stringify(state));
-              history.push('/orderDetail');
+              if (
+                state.name === '' ||
+                state.email === '' ||
+                state.phoneNumber === '' ||
+                state.address === '' ||
+                state.postalCode === '' ||
+                state.city === ''
+              ) {
+                toast.error('لطفا تمام خانه ها را تکمیل کنید');
+              } else {
+                localStorage.setItem('personInfo', JSON.stringify(state));
+                history.push('/payment');
+              }
             }}
             type='submit'
             className={classes.button}

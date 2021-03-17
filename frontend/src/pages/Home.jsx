@@ -17,7 +17,28 @@ const Home = () => {
     }
 
     productContext.clearErrors();
+
+    //eslint-disable-next-line
   }, [productContext.error]);
+
+  useEffect(() => {
+    productContext.getDiscountProducts();
+
+    //eslint-disable-next-line
+  }, [`${productContext.discountedProducts}`]);
+
+  useEffect(() => {
+    productContext.getNewProducts();
+
+    //eslint-disable-next-line
+  }, [`${productContext.newProducts}`]);
+
+  useEffect(() => {
+    productContext.getSpecialProducts();
+
+    //eslint-disable-next-line
+  }, [`${productContext.specialProducts}`]);
+
   return (
     <Container
       style={{ backgroundColor: '#caeddf', marginTop: '4rem' }}

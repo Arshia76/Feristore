@@ -1,12 +1,47 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, Fragment, useEffect } from 'react';
+import QueryString from 'query-string';
 import { Box, Button, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import OrderContext from '../context/orders/OrderContext';
+import { toast } from 'react-toastify';
 
 const useStyles = makeStyles({
   root: {
     marginTop: '5rem',
     padding: '2rem',
     width: '100%',
+  },
+  btn: {
+    width: '50%',
+    margin: '1rem 0',
+    fontSize: '18px',
+    color: 'black',
+    backgroundColor: 'white',
+    transition: 'all .5s linear',
+    border: '1px solid black',
+
+    '&:hover': {
+      color: 'white',
+      backgroundColor: 'black',
+    },
+  },
+
+  link: {
+    width: '50%',
+    margin: '1rem 0',
+    textDecoration: 'none',
+    padding: '.5rem',
+    display: 'inline-block',
+    border: '1px solid black',
+    fontSize: '18px',
+    color: 'black',
+    backgroundColor: 'white',
+    transition: 'all .5s linear',
+
+    '&:hover': {
+      color: 'white',
+      backgroundColor: 'black',
+    },
   },
 
   orderDetail: {
@@ -23,20 +58,6 @@ const useStyles = makeStyles({
   orderPrice: {
     display: 'flex',
     alignItems: 'center',
-  },
-
-  btn: {
-    width: '50%',
-    margin: '1rem 0',
-    fontSize: '18px',
-    color: 'black',
-    backgroundColor: 'white',
-    transition: 'all .5s linear',
-
-    '&:hover': {
-      color: 'white',
-      backgroundColor: 'black',
-    },
   },
 
   Inner: {
@@ -65,142 +86,237 @@ const useStyles = makeStyles({
   },
 });
 
-const OrderDetail = () => {
+const OrderDetail = ({ match, history, location }) => {
   const classes = useStyles();
-  const [productPrice] = useState(() =>
-    JSON.parse(localStorage.getItem('cart')).reduce(
-      (tot, cur) => tot + cur.price * cur.count,
-      0
-    )
-  );
+  let qs = QueryString.parse(location.search);
+  const orderContext = useContext(OrderContext);
+
+  useEffect(() => {
+    orderContext.getOrder(match.params.id);
+
+    //eslint-disable-next-line
+  }, [match.params.id]);
+
+  useEffect(() => {
+    if (qs.Status) {
+      if (qs.Status === 'OK') {
+        const fun = async () => {
+          await orderContext.getOrder(match.params.id);
+
+          orderContext.order.totalPrice !== undefined &&
+            (await orderContext.verifyOrder(
+              orderContext.order.totalPrice,
+              qs.Authority
+            ));
+
+          orderContext.order.totalPrice !== undefined &&
+            (await orderContext.updatePayDate(match.params.id));
+        };
+        fun();
+
+        orderContext.order.totalPrice !== undefined &&
+          toast.success('تراکنش با موفقیت انجام شد');
+        orderContext.order.totalPrice !== undefined &&
+          localStorage.removeItem('cart');
+        // orderContext.order.totalPrice !== undefined &&
+        //   orderContext.clearOrder();
+
+        orderContext.order.totalPrice !== undefined && history.push('/');
+      } else {
+        toast.error(
+          'تراکنش با شکست مواجه شد پول شما طی 24 ساعت به حسابتان واریز می شود'
+        );
+        history.push('/');
+      }
+    }
+    //eslint-disable-next-line
+  }, [qs.Authority, qs.Status, orderContext.order]);
+
+  // useEffect(() => {
+  //   if (orderContext.order.user === undefined) {
+  //     history.push('/');
+  //   }
+
+  //   orderContext.order.totalPrice === undefined && history.push('/');
+
+  //   //eslint-disable-next-line
+  // }, [orderContext.order.orderItems, orderContext.order.user]);
+
   const [sendPrice] = useState(2000);
   return (
     <Grid container className={classes.root} spacing={4}>
-      <Grid
-        justify='space-around'
-        align='center'
-        direction='column'
-        item
-        xs={12}
-        sm={4}
-      >
-        <Box className={classes.orderDetail}>
-          <Typography style={{ margin: '.5rem 0' }} variant='h4'>
-            اطلاعات پرداخت
-          </Typography>
-          <hr />
-          <Box style={{ padding: '1rem', direction: 'rtl' }}>
-            <Box className={classes.orderDetailInner}>
-              <Typography>قیمت محصولات:</Typography>
-              <Box className={classes.orderPrice}>
-                <Typography style={{ marginLeft: '.3rem' }}>
-                  {productPrice}
-                </Typography>
-                <Typography>تومان</Typography>
-              </Box>
-            </Box>
-            <Box className={classes.orderDetailInner}>
-              <Typography>هزینه ارسال:</Typography>
-              <Box className={classes.orderPrice}>
-                <Typography style={{ marginLeft: '.3rem' }}>
-                  {sendPrice}
-                </Typography>
-                <Typography>تومان</Typography>
-              </Box>
-            </Box>
-            <Box className={classes.orderDetailInner}>
-              <Typography>قیمت کل:</Typography>
-              <Box className={classes.orderPrice}>
-                <Typography style={{ marginLeft: '.3rem' }}>
-                  {productPrice + sendPrice}
-                </Typography>
-                <Typography>تومان</Typography>
-              </Box>
-            </Box>
-          </Box>
-          <hr />
-          <Button className={classes.btn} variant='outlined'>
-            ثبت سفارش
-          </Button>
-        </Box>
-      </Grid>
-      <Grid style={{ direction: 'rtl' }} direction='column' item xs={12} sm={8}>
-        <Typography variant='h4'>مشخصات</Typography>
-        <Box className={classes.Inner}>
-          <Typography variant='h6' style={{ marginLeft: '1rem' }}>
-            نام:
-          </Typography>
-          <Typography variant='h6'>
-            {JSON.parse(localStorage.getItem('personInfo')).name}
-          </Typography>
-        </Box>
-        <Box className={classes.Inner}>
-          <Typography variant='h6' style={{ marginLeft: '1rem' }}>
-            تلفن:
-          </Typography>
-          <Typography variant='h6'>
-            {JSON.parse(localStorage.getItem('personInfo')).phoneNumber}
-          </Typography>
-        </Box>
-        <Box className={classes.Inner}>
-          <Typography
-            variant='h6'
-            style={{ marginLeft: '1rem', wordBreak: 'break-word' }}
-          >
-            آدرس:
-          </Typography>
-          <Typography variant='h6'>
-            {JSON.parse(localStorage.getItem('personInfo')).address}
-          </Typography>
-        </Box>
-        <Box className={classes.Inner}>
-          <Typography
-            variant='h6'
-            style={{ marginLeft: '1rem', wordBreak: 'break-word' }}
-          >
-            شهر:
-          </Typography>
-          <Typography variant='h6'>
-            {JSON.parse(localStorage.getItem('personInfo')).city}
-          </Typography>
-        </Box>
-        <Box className={classes.Inner}>
-          <Typography variant='h6' style={{ marginLeft: '1rem' }}>
-            کد پستی:
-          </Typography>
-          <Typography variant='h6'>
-            {JSON.parse(localStorage.getItem('personInfo')).postalCode}
-          </Typography>
-        </Box>
-        <hr style={{ margin: '2rem 0' }} />
-        <Box>
-          <Typography variant='h4'>محصولات</Typography>
-          {JSON.parse(localStorage.getItem('cart')).map((c) => {
-            return (
-              <Box className={classes.orderItems}>
-                <img className={classes.img} src={c.image} alt='aks' />
-                <Box>
-                  <Typography variant='h5' style={{ marginBottom: '.6rem' }}>
-                    {c.name}
-                  </Typography>
-                  <Box className={classes.product}>
-                    <Typography variant='h6'>{`${c.count}x${c.price}:`}</Typography>
-                    <Box className={classes.product}>
-                      <Typography
-                        variant='h6'
-                        style={{ marginRight: '.5rem', marginLeft: '.3rem' }}
-                      >
-                        {c.count * c.price}
-                      </Typography>
-                      <Typography variant='h5'>تومان</Typography>
-                    </Box>
+      {!orderContext.loading && (
+        <Fragment>
+          <Grid direction='column' item xs={12} md={4}>
+            <Box className={classes.orderDetail}>
+              <Typography
+                style={{ margin: '.5rem 0', textAlign: 'center' }}
+                variant='h4'
+              >
+                اطلاعات پرداخت
+              </Typography>
+              <hr />
+              <Box style={{ padding: '1rem', direction: 'rtl' }}>
+                <Box className={classes.orderDetailInner}>
+                  <Typography>قیمت محصولات:</Typography>
+                  <Box className={classes.orderPrice}>
+                    <Typography style={{ marginLeft: '.3rem' }}>
+                      {orderContext.order.productPrice}
+                    </Typography>
+                    <Typography>تومان</Typography>
+                  </Box>
+                </Box>
+                <Box className={classes.orderDetailInner}>
+                  <Typography>هزینه ارسال:</Typography>
+                  <Box className={classes.orderPrice}>
+                    <Typography style={{ marginLeft: '.3rem' }}>
+                      {sendPrice}
+                    </Typography>
+                    <Typography>تومان</Typography>
+                  </Box>
+                </Box>
+                <Box className={classes.orderDetailInner}>
+                  <Typography>قیمت کل:</Typography>
+                  <Box className={classes.orderPrice}>
+                    <Typography style={{ marginLeft: '.3rem' }}>
+                      {orderContext.order.totalPrice}
+                    </Typography>
+                    <Typography>تومان</Typography>
                   </Box>
                 </Box>
               </Box>
-            );
-          })}
-        </Box>
-      </Grid>
+              <hr />
+              <Box style={{ width: '100%', textAlign: 'center' }}>
+                {orderContext.order.payDate !==
+                'پرداخت نشده' ? null : orderContext.url !== '' ? (
+                  <a className={classes.link} href={orderContext.url}>
+                    پرداخت
+                  </a>
+                ) : (
+                  <Button
+                    className={classes.btn}
+                    onClick={() =>
+                      orderContext.pay(
+                        orderContext.order._id,
+                        orderContext.order.totalPrice,
+                        orderContext.order.user.email,
+                        orderContext.order.user.phoneNumber
+                      )
+                    }
+                  >
+                    نهایی کردن
+                  </Button>
+                )}
+              </Box>
+            </Box>
+          </Grid>
+          <Grid
+            style={{ direction: 'rtl' }}
+            direction='column'
+            item
+            xs={12}
+            md={8}
+          >
+            <Typography variant='h4'>مشخصات</Typography>
+            <Box className={classes.Inner}>
+              <Typography variant='h6' style={{ marginLeft: '1rem' }}>
+                نام:
+              </Typography>
+              <Typography variant='h6'>
+                {orderContext.order.user && orderContext.order.user.name}
+              </Typography>
+            </Box>
+            <Box className={classes.Inner}>
+              <Typography variant='h6' style={{ marginLeft: '1rem' }}>
+                ایمیل:
+              </Typography>
+              <Typography variant='h6'>
+                {orderContext.order.user && orderContext.order.user.email}
+              </Typography>
+            </Box>
+            <Box className={classes.Inner}>
+              <Typography variant='h6' style={{ marginLeft: '1rem' }}>
+                تلفن:
+              </Typography>
+              <Typography variant='h6'>
+                {orderContext.order.user && orderContext.order.user.phoneNumber}
+              </Typography>
+            </Box>
+            <Box className={classes.Inner}>
+              <Typography
+                variant='h6'
+                style={{ marginLeft: '1rem', wordBreak: 'break-word' }}
+              >
+                آدرس:
+              </Typography>
+              <Typography variant='h6'>
+                {orderContext.order.shipping &&
+                  orderContext.order.shipping.address}
+              </Typography>
+            </Box>
+            <Box className={classes.Inner}>
+              <Typography
+                variant='h6'
+                style={{ marginLeft: '1rem', wordBreak: 'break-word' }}
+              >
+                شهر:
+              </Typography>
+              <Typography variant='h6'>
+                {orderContext.order.shipping &&
+                  orderContext.order.shipping.city}
+              </Typography>
+            </Box>
+            <Box className={classes.Inner}>
+              <Typography variant='h6' style={{ marginLeft: '1rem' }}>
+                کد پستی:
+              </Typography>
+              <Typography variant='h6'>
+                {orderContext.order.shipping &&
+                  orderContext.order.shipping.postalCode}
+              </Typography>
+            </Box>
+            <hr style={{ margin: '2rem 0' }} />
+            <Box>
+              <Typography variant='h4'>محصولات</Typography>
+              {orderContext.order.orderItems &&
+                orderContext.order.orderItems.map((item) => {
+                  return (
+                    <Box className={classes.orderItems}>
+                      <img
+                        className={classes.img}
+                        src={`http://localhost:5000/${item.productImage}`}
+                        alt='aks'
+                      />
+                      <Box>
+                        <Typography
+                          variant='h5'
+                          style={{ marginBottom: '.6rem' }}
+                        >
+                          {item.productName}
+                        </Typography>
+                        <Box className={classes.product}>
+                          <Typography variant='h6'>{`${item.productCount}x${item.productPrice}:`}</Typography>
+                          <Box className={classes.product}>
+                            <Typography
+                              variant='h6'
+                              style={{
+                                marginRight: '.5rem',
+                                marginLeft: '.3rem',
+                              }}
+                            >
+                              {item.productCount * item.productPrice}
+                            </Typography>
+                            <Typography variant='h5'>تومان</Typography>
+                          </Box>
+                        </Box>
+                      </Box>
+                    </Box>
+                  );
+                })}
+            </Box>
+          </Grid>
+        </Fragment>
+      )}
     </Grid>
   );
 };

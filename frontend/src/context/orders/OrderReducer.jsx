@@ -133,7 +133,7 @@ const OrderReducer = (state, action) => {
     case types.CLEAR_ORDER:
       return {
         ...state,
-        order: {},
+        order: null,
       };
     default:
       return state;
