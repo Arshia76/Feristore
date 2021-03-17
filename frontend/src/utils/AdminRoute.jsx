@@ -9,8 +9,9 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
     <Route
       {...rest}
       render={(props) =>
-        !authContext.isAuthenticated || !authContext.isAdmin ? (
-          <Redirect to='/' />
+        authContext.loading ? null : !authContext.isAuthenticated ||
+          !authContext.isAdmin ? (
+          <Redirect to='/register' />
         ) : (
           <Component {...props} />
         )
