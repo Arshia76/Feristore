@@ -187,8 +187,9 @@ const OrderDetail = ({ match, history, location }) => {
               </Box>
               <hr />
               <Box style={{ width: '100%', textAlign: 'center' }}>
-                {orderContext.order.payDate !==
-                'پرداخت نشده' ? null : orderContext.url !== '' ? (
+                {orderContext.order.payDate !== 'پرداخت نشده' ? (
+                  <Typography variant='h6'>پرداخت شده</Typography>
+                ) : orderContext.url !== '' ? (
                   <a className={classes.link} href={orderContext.url}>
                     پرداخت
                   </a>

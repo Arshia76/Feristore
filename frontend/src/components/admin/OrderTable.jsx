@@ -14,9 +14,18 @@ const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
+    [theme.breakpoints.down('md')]: {
+      fontSize: 12,
+      textAlign: 'center',
+    },
   },
   body: {
     fontSize: 14,
+    [theme.breakpoints.down('md')]: {
+      fontSize: 12,
+      textAlign: 'center',
+      margin: '.5rem 0 !important',
+    },
   },
 }))(TableCell);
 
@@ -28,22 +37,28 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   table: {
     margin: '5rem auto ',
     width: '75%',
     direction: 'rtl',
+    [theme.breakpoints.down('md')]: {
+      width: '90%',
+    },
   },
+
   link: {
     padding: '.3rem .5rem',
     textDecoration: 'none',
     color: 'white',
     display: 'inline-block',
     backgroundColor: 'black',
-    margin: '0 .5rem',
+    margin: '.5rem .5rem',
     cursor: 'pointer',
+    width: '3rem',
+    textAlign: 'center',
   },
-});
+}));
 
 const OrderTable = () => {
   const classes = useStyles();

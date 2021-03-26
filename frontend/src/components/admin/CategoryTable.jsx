@@ -32,13 +32,16 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   table: {
     margin: '2rem auto ',
     width: '75%',
     direction: 'rtl',
+    [theme.breakpoints.down('md')]: {
+      width: '90%',
+    },
   },
-});
+}));
 
 const CategoryTable = () => {
   const classes = useStyles();

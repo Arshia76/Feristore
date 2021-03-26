@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from 'react';
 import { Box } from '@material-ui/core';
 import OrderTable from '../../components/admin/OrderTable';
 import OrderContext from '../../context/orders/OrderContext';
-import Loader from '../../components/Loader/Loader';
 
 const Order = () => {
   const orderContext = useContext(OrderContext);
@@ -12,11 +11,7 @@ const Order = () => {
   }, [orderContext.orders]);
   return (
     <Box>
-      {orderContext.loading ? (
-        <Loader />
-      ) : (
-        <OrderTable orders={orderContext.orders} />
-      )}
+      <OrderTable orders={orderContext.orders} />
     </Box>
   );
 };

@@ -7,7 +7,7 @@ import * as types from '../Types';
 const OrderState = (props) => {
   const initialState = {
     error: null,
-    loading: false,
+    loading: true,
     order: {},
     orders: [],
     url: '',

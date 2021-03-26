@@ -73,6 +73,21 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-around',
     alignItems: 'center',
     padding: '.5rem',
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column',
+      width: '100%',
+      alignItems: 'flex-end',
+    },
+  },
+
+  textField: {
+    textAlign: 'right',
+    width: '25%',
+    [theme.breakpoints.down('sm')]: {
+      width: '50% !important',
+      marginTop: '1rem',
+      marginRight: '1.5rem',
+    },
   },
   checkbox: {
     color: 'black',
@@ -247,7 +262,7 @@ const ManageProduct = ({ history, location }) => {
             />
             <TextField
               name='countInStock'
-              style={{ textAlign: 'right', width: '25%' }}
+              className={classes.textField}
               value={state.countInStock}
               type='text'
               label='تعداد محصول'
@@ -257,7 +272,7 @@ const ManageProduct = ({ history, location }) => {
             />
             <TextField
               name='discount'
-              style={{ textAlign: 'right', width: '25%' }}
+              className={classes.textField}
               value={state.discount}
               type='text'
               label='درصد تخفیف محصول'

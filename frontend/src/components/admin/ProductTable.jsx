@@ -19,9 +19,18 @@ const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
+    [theme.breakpoints.down('md')]: {
+      fontSize: 10,
+      textAlign: 'center',
+    },
   },
   body: {
     fontSize: 14,
+    [theme.breakpoints.down('md')]: {
+      fontSize: 10,
+      textAlign: 'center',
+      margin: '.5rem 0 !important',
+    },
   },
 }))(TableCell);
 
@@ -33,13 +42,16 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   table: {
     margin: '1rem auto ',
     width: '75%',
     direction: 'rtl',
+    [theme.breakpoints.down('md')]: {
+      width: '90%',
+    },
   },
-});
+}));
 
 const ProductTable = () => {
   const classes = useStyles();
@@ -76,7 +88,7 @@ const ProductTable = () => {
                 <StyledTableCell align='right'>{row.category}</StyledTableCell>
                 <StyledTableCell align='right'>
                   <EditIcon
-                    style={{ cursor: 'pointer' }}
+                    style={{ cursor: 'pointer', marginRight: '.5rem' }}
                     onClick={() =>
                       history.push({
                         pathname: '/admin/product/manage',

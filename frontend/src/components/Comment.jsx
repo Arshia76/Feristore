@@ -3,7 +3,7 @@ import { Box, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ReactStars from 'react-stars';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     alignItems: 'flex-start',
@@ -18,10 +18,12 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     direction: 'rtl',
     width: '75%',
-
     wordBreak: 'break-all',
+    [theme.breakpoints.down('sm')]: {
+      width: '60%',
+    },
   },
-});
+}));
 
 const Comment = ({ username, comment, rating }) => {
   const classes = useStyles();

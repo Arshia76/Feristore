@@ -28,13 +28,16 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   table: {
     margin: '6rem auto ',
     width: '75%',
     direction: 'rtl',
+    [theme.breakpoints.down('md')]: {
+      width: '90%',
+    },
   },
-});
+}));
 
 const CustomerTable = () => {
   const classes = useStyles();

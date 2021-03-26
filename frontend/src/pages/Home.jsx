@@ -1,10 +1,11 @@
 import React, { useEffect, useContext } from 'react';
-import { Container } from '@material-ui/core';
+import { Container, Typography, Box } from '@material-ui/core';
 import Slider from '../components/Slider';
 import PopularProducts from '../components/PopularProducts';
 import { toast } from 'react-toastify';
 import ProductContext from '../context/products/ProductContext';
 import DiscountSlider from '../components/DiscountSlider';
+import { Fragment } from 'react';
 
 const Home = () => {
   const productContext = useContext(ProductContext);
@@ -40,14 +41,28 @@ const Home = () => {
   }, [`${productContext.specialProducts}`]);
 
   return (
-    <Container
-      style={{ backgroundColor: '#caeddf', marginTop: '4rem' }}
-      maxWidth='xl'
-    >
+    <Container style={{ marginTop: '4rem' }} maxWidth='xl'>
       <Container maxWidth='md'>
-        <Slider />
-        <DiscountSlider />
-        <PopularProducts />
+        {productContext.discountedProducts.length === 0 &&
+        productContext.newProducts.length === 0 &&
+        productContext.specialProducts.length === 0 ? (
+          <Box
+            style={{
+              height: '20rem',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <Typography variant='h3'>محصولی وجود ندارد</Typography>
+          </Box>
+        ) : (
+          <Fragment>
+            <Slider />
+            <DiscountSlider />
+            <PopularProducts />
+          </Fragment>
+        )}
       </Container>
     </Container>
   );

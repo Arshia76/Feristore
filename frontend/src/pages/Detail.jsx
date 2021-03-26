@@ -56,7 +56,7 @@ const BootstrapInput = withStyles((theme) => ({
   },
 }))(InputBase);
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -64,6 +64,10 @@ const useStyles = makeStyles({
     marginTop: '5rem',
     width: '100%',
     direction: 'rtl',
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
   },
 
   innerBox: {
@@ -74,6 +78,9 @@ const useStyles = makeStyles({
   img: {
     width: '40%',
     height: '25rem',
+    [theme.breakpoints.down('sm')]: {
+      width: '80%',
+    },
   },
 
   middle: {
@@ -83,6 +90,10 @@ const useStyles = makeStyles({
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     height: '20rem',
+    [theme.breakpoints.down('sm')]: {
+      width: '80%',
+      margin: '2rem 0',
+    },
   },
 
   third: {
@@ -90,6 +101,9 @@ const useStyles = makeStyles({
     border: '2px solid #ebe6da ',
     padding: '1rem',
     textAlign: 'center',
+    [theme.breakpoints.down('sm')]: {
+      width: '80%',
+    },
   },
 
   thirdInner: {
@@ -120,6 +134,9 @@ const useStyles = makeStyles({
     marginTop: '4rem',
     textAlign: 'right',
     width: '50%',
+    [theme.breakpoints.down('sm')]: {
+      width: '80%',
+    },
   },
 
   commentRoot: {
@@ -128,7 +145,25 @@ const useStyles = makeStyles({
     alignItems: 'flex-end',
     flexDirection: 'column',
   },
-});
+  commentBody: {
+    width: '50%',
+    marginBottom: '1rem',
+    height: '60vh',
+    overflowX: 'hidden',
+    overflowY: 'auto',
+    scrollbarColor: '#a4b0bd #d5d9df',
+    [theme.breakpoints.down('sm')]: {
+      width: '80%',
+    },
+  },
+  hrStyle: {
+    width: '50%',
+    textAlign: 'right',
+    [theme.breakpoints.down('sm')]: {
+      width: '80%',
+    },
+  },
+}));
 
 const Detail = ({ match }) => {
   const productContext = useContext(ProductContext);
@@ -257,24 +292,10 @@ const Detail = ({ match }) => {
         <Box className={classes.comments}>
           <Typography variant='h2'>نظرات</Typography>
         </Box>
-        <Box
-          style={{
-            width: '50%',
-            textAlign: 'right',
-          }}
-        >
+        <Box className={classes.hrStyle}>
           <hr />
         </Box>
-        <Box
-          style={{
-            width: '50%',
-            marginBottom: '1rem',
-            height: '60vh',
-            overflowX: 'hidden',
-            overflowY: 'auto',
-            scrollbarColor: '#a4b0bd #d5d9df',
-          }}
-        >
+        <Box className={classes.commentBody}>
           {reviewContext.reviews &&
             reviewContext.reviews.map((r) => {
               return (
