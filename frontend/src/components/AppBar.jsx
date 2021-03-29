@@ -243,7 +243,7 @@ const NavBar = ({ handleOpen }) => {
 
   return (
     <div
-      style={{ position: 'sticky', top: 0, zIndex: '1' }}
+      style={{ position: 'sticky', top: 0, zIndex: 100 }}
       className={classes.grow}
     >
       <AppBar>
