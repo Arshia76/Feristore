@@ -1,7 +1,7 @@
 import React from 'react';
 import { Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-
+import { useHistory } from 'react-router-dom';
 const useStyles = makeStyles({
   image: {
     width: '100%',
@@ -20,13 +20,18 @@ const useStyles = makeStyles({
   paper: {
     height: '65vh',
     position: 'relative',
+    cursor: 'pointer',
   },
 });
 
-const SliderItem = ({ image, name }) => {
+const SliderItem = ({ image, name, id }) => {
   const classes = useStyles();
+  const history = useHistory();
   return (
-    <Paper className={classes.paper}>
+    <Paper
+      className={classes.paper}
+      onClick={() => history.push(`/detail/${id}`)}
+    >
       <img className={classes.image} src={image} alt='carousel-aks' />
       <Typography className={classes.text} variant='h3'>
         {name}
