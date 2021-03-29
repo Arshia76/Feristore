@@ -72,7 +72,7 @@ const CategoryItem = ({ product }) => {
           <CardMedia
             component='img'
             className={classes.image}
-            image={`http://localhost:5000/${product.image}`}
+            image={`https://feristore.herokuapp.com/${product.image}`}
             title='Contemplative Reptile'
           />
           <CardContent className={classes.CardContent}>
