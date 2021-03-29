@@ -56,7 +56,7 @@ const Home = () => {
         productContext.specialProducts.results.length === 0 ? (
           <Box
             style={{
-              height: '30rem',
+              height: '25rem',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',

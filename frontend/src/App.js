@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import UserOrders from './pages/UserOrders';
-import Footer from './components/Footer';
 import Register from './pages/Register';
 import Cart from './pages/Cart';
 import Payment from './pages/Payment';
@@ -147,7 +146,6 @@ function App() {
                             component={AdminCategory}
                           />
                         </Switch>
-                        <Footer />
                       </Router>
                       <ToastContainer
                         rtl
