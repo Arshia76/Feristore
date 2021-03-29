@@ -209,7 +209,7 @@ const Detail = ({ match }) => {
       <Container className={classes.root}>
         <img
           className={classes.img}
-          src={`http://localhost:5000/${productContext.product.image}`}
+          src={`https:feristrore.herokuapp.com/${productContext.product.image}`}
           alt='aks'
         />
         <Box className={classes.middle}>
