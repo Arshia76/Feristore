@@ -84,10 +84,15 @@ const ManageCategory = ({ location, history }) => {
 
   const submit = (e) => {
     e.preventDefault();
-    type === 'ایجاد دسته بندی'
-      ? categoryContext.createCategory(state)
-      : categoryContext.updateCategory(category._id, state);
-    history.push('/admin/categories');
+    if (type === 'ایجاد دسته بندی') {
+      categoryContext.setLoading();
+      categoryContext.createCategory(state);
+      history.push('/admin/categories');
+    } else {
+      categoryContext.setLoading();
+      categoryContext.updateCategory(category._id, state);
+      history.push('/admin/categories');
+    }
   };
 
   const onChange = (e) => {

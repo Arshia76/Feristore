@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import MyTable from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -13,6 +13,8 @@ import InfoIcon from '@material-ui/icons/Info';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Loader from '../Loader/Loader';
+import { Pagination } from '@material-ui/lab';
+import { Box } from '@material-ui/core';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -47,16 +49,21 @@ const CategoryTable = () => {
   const classes = useStyles();
   const categoryContext = useContext(CategoryContext);
   const history = useHistory();
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    categoryContext.getCategories();
+    categoryContext.getCategories(10, page);
+
+    //eslint-disable-next-line
+  }, [categoryContext.loading, `${categoryContext.category}`]);
+
+  useEffect(() => {
     if (categoryContext.error) {
       toast.error(
         categoryContext.error.msg || categoryContext.error.errors[0].msg
       );
     }
-    //eslint-disable-next-line
-  }, [categoryContext.category, categoryContext.error]);
+  }, [categoryContext.error]);
   return (
     <TableContainer>
       <MyTable className={classes.table} aria-label='customized table'>
@@ -70,7 +77,8 @@ const CategoryTable = () => {
           {categoryContext.loading ? (
             <Loader />
           ) : (
-            categoryContext.category.map((row) => (
+            categoryContext.category.results &&
+            categoryContext.category.results.map((row) => (
               <StyledTableRow key={row.category}>
                 <StyledTableCell align='center'>{row.category}</StyledTableCell>
                 <StyledTableCell align='center'>
@@ -110,6 +118,29 @@ const CategoryTable = () => {
           )}
         </TableBody>
       </MyTable>
+      {categoryContext.category.pages > 1 && (
+        <Box
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            width: '100%',
+            margin: '2rem 0',
+          }}
+        >
+          <Pagination
+            color='primary'
+            size='large'
+            variant='outlined'
+            count={categoryContext.category.pages}
+            page={page}
+            onChange={(e, value) => {
+              categoryContext.setLoading();
+              setPage(value);
+              categoryContext.getCategories(10, value);
+            }}
+          />
+        </Box>
+      )}
     </TableContainer>
   );
 };

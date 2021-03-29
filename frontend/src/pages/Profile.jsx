@@ -11,6 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import UserContext from '../context/users/UserContext';
 import AuthContext from '../context/auth/AuthContext';
 import { toast } from 'react-toastify';
+import Loader from '../components/Loader/Loader';
 
 const useStyles = makeStyles({
   root: {
@@ -61,30 +62,27 @@ const Profile = () => {
   const classes = useStyles();
   const userContext = useContext(UserContext);
   const authContext = useContext(AuthContext);
+  const fun = () => {
+    userContext.getUser(authContext.id);
+    setState({
+      username: userContext.user && userContext.user.username,
+      email: userContext.user && userContext.user.email,
+      password: '',
+      newPassword: '',
+    });
+  };
 
   useEffect(() => {
-    userContext.getUser(authContext.id);
     if (userContext.error) {
       toast.error(userContext.error.msg || userContext.error.errors[0].msg);
-      userContext.clearErrors();
-    }
-
-    if (authContext.error) {
+    } else if (authContext.error) {
       toast.error(authContext.error.msg || authContext.error.errors[0].msg);
-      userContext.clearErrors();
+    } else if (userContext.message !== '') {
+      toast.success(userContext.message);
     }
-
-    if (!authContext.error && !userContext.error) {
-      setState({
-        username: userContext.user && userContext.user.username,
-        email: userContext.user && userContext.user.email,
-        password: '',
-        newPassword: '',
-      });
-    }
-
+    fun();
     //eslint-disable-next-line
-  }, [authContext.error, userContext.error, userContext.user]);
+  }, [authContext, authContext.error, userContext.error, userContext.message]);
 
   const [state, setState] = useState({
     username: userContext.user && userContext.user.username,
@@ -97,65 +95,66 @@ const Profile = () => {
     setState({ ...state, [e.target.name]: e.target.value });
   };
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
-    userContext.updateUser(authContext.id, state);
-    if (authContext.error === null && userContext.error === null) {
-      toast.success('بروز رسانی انجام شد');
-      setState({ ...state, password: '', newPassword: '' });
-    }
+    userContext.setLoading();
+    await userContext.updateUser(authContext.id, state);
   };
 
   return (
     <Container className={classes.root} maxWidth='xl'>
-      <Box className={classes.box}>
-        <Typography className={classes.text} variant='h4'>
-          مشخصات
-        </Typography>
-        <FormControl className={classes.form}>
-          <TextField
-            name='username'
-            type='text'
-            value={state.username}
-            onChange={onChange}
-            label='نام کاربری'
-            inputProps={{ style: { textAlign: 'right' } }}
-            variant='outlined'
-          />
-          <TextField
-            name='email'
-            type='email'
-            value={state.email}
-            onChange={onChange}
-            label='ایمیل'
-            inputProps={{ style: { textAlign: 'right' } }}
-            variant='outlined'
-          />
-          <TextField
-            name='password'
-            style={{ textAlign: 'right' }}
-            value={state.password}
-            onChange={onChange}
-            type='password'
-            label='رمز عبور فعلی'
-            inputProps={{ style: { textAlign: 'right' } }}
-            variant='outlined'
-          />
-          <TextField
-            name='newPassword'
-            style={{ textAlign: 'right' }}
-            value={state.newPassword}
-            onChange={onChange}
-            type='password'
-            label='رمز عبور جدید'
-            inputProps={{ style: { textAlign: 'right' } }}
-            variant='outlined'
-          />
-          <Button type='submit' onClick={submit} className={classes.button}>
-            بروز رسانی
-          </Button>
-        </FormControl>
-      </Box>
+      {userContext.loading ? (
+        <Loader />
+      ) : (
+        <Box className={classes.box}>
+          <Typography className={classes.text} variant='h4'>
+            مشخصات
+          </Typography>
+          <FormControl className={classes.form}>
+            <TextField
+              name='username'
+              type='text'
+              value={state.username}
+              onChange={onChange}
+              label='نام کاربری'
+              inputProps={{ style: { textAlign: 'right' } }}
+              variant='outlined'
+            />
+            <TextField
+              name='email'
+              type='email'
+              value={state.email}
+              onChange={onChange}
+              label='ایمیل'
+              inputProps={{ style: { textAlign: 'right' } }}
+              variant='outlined'
+            />
+            <TextField
+              name='password'
+              style={{ textAlign: 'right' }}
+              value={state.password}
+              onChange={onChange}
+              type='password'
+              label='رمز عبور فعلی'
+              inputProps={{ style: { textAlign: 'right' } }}
+              variant='outlined'
+            />
+            <TextField
+              name='newPassword'
+              style={{ textAlign: 'right' }}
+              value={state.newPassword}
+              onChange={onChange}
+              type='password'
+              label='رمز عبور جدید'
+              inputProps={{ style: { textAlign: 'right' } }}
+              variant='outlined'
+            />
+            <Button type='submit' onClick={submit} className={classes.button}>
+              بروز رسانی
+            </Button>
+          </FormControl>
+        </Box>
+      )}
     </Container>
   );
 };

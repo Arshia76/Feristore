@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import MyTable from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -10,6 +10,8 @@ import ReviewContext from '../../context/review/ReviewContext';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { toast } from 'react-toastify';
 import Loader from '../../components/Loader/Loader';
+import { Pagination } from '@material-ui/lab';
+import { Box } from '@material-ui/core';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -40,14 +42,15 @@ const useStyles = makeStyles({
 const Comment = ({ match }) => {
   const classes = useStyles();
   const reviewContext = useContext(ReviewContext);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    reviewContext.getProductReviews(match.params.id);
+    reviewContext.getProductReviews(match.params.id, 10, page);
     if (reviewContext.error) {
       toast.error(reviewContext.error.msg || reviewContext.error.errors[0].msg);
     }
     //eslint-disable-next-line
-  }, [reviewContext.reviews, reviewContext.error]);
+  }, [reviewContext.error, match]);
   return (
     <TableContainer>
       <MyTable className={classes.table} aria-label='customized table'>
@@ -63,7 +66,8 @@ const Comment = ({ match }) => {
           {reviewContext.loading ? (
             <Loader />
           ) : (
-            reviewContext.reviews.map((row) => (
+            reviewContext.reviews.results &&
+            reviewContext.reviews.results.map((row) => (
               <StyledTableRow key={row._id}>
                 <StyledTableCell align='right'>{row.reviewer}</StyledTableCell>
                 <StyledTableCell
@@ -91,6 +95,28 @@ const Comment = ({ match }) => {
           )}
         </TableBody>
       </MyTable>
+      {reviewContext.reviews.pages > 1 && (
+        <Box
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            width: '100%',
+            margin: '2rem 0',
+          }}
+        >
+          <Pagination
+            color='primary'
+            size='large'
+            variant='outlined'
+            count={reviewContext.reviews.pages}
+            page={page}
+            onChange={(e, value) => {
+              setPage(value);
+              reviewContext.getProductReviews(match.params.id, 10, value);
+            }}
+          />
+        </Box>
+      )}
     </TableContainer>
   );
 };

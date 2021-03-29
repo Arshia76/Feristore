@@ -4,6 +4,7 @@ import { Box, Button, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import OrderContext from '../context/orders/OrderContext';
 import { toast } from 'react-toastify';
+import Loader from '../components/Loader/Loader';
 
 const useStyles = makeStyles({
   root: {
@@ -132,20 +133,12 @@ const OrderDetail = ({ match, history, location }) => {
     //eslint-disable-next-line
   }, [qs.Authority, qs.Status, orderContext.order]);
 
-  // useEffect(() => {
-  //   if (orderContext.order.user === undefined) {
-  //     history.push('/');
-  //   }
-
-  //   orderContext.order.totalPrice === undefined && history.push('/');
-
-  //   //eslint-disable-next-line
-  // }, [orderContext.order.orderItems, orderContext.order.user]);
-
   const [sendPrice] = useState(2000);
   return (
     <Grid container className={classes.root} spacing={4}>
-      {!orderContext.loading && (
+      {orderContext.loading ? (
+        <Loader />
+      ) : (
         <Fragment>
           <Grid direction='column' item xs={12} md={4}>
             <Box className={classes.orderDetail}>
@@ -196,14 +189,15 @@ const OrderDetail = ({ match, history, location }) => {
                 ) : (
                   <Button
                     className={classes.btn}
-                    onClick={() =>
+                    onClick={() => {
+                      orderContext.setLoading();
                       orderContext.pay(
                         orderContext.order._id,
                         orderContext.order.totalPrice,
                         orderContext.order.user.email,
                         orderContext.order.user.phoneNumber
-                      )
-                    }
+                      );
+                    }}
                   >
                     نهایی کردن
                   </Button>

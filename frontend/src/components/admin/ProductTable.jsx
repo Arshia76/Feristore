@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import MyTable from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -14,6 +14,8 @@ import ProductContext from '../../context/products/ProductContext';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Loader from '../Loader/Loader';
+import { Box } from '@material-ui/core';
+import { Pagination } from '@material-ui/lab';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -57,15 +59,20 @@ const ProductTable = () => {
   const classes = useStyles();
   const productContext = useContext(ProductContext);
   const history = useHistory();
+  const [page, setPage] = useState(1);
   useEffect(() => {
-    productContext.getAllProducts();
+    productContext.getAllProducts(10, page);
+
+    //eslint-disable-next-line
+  }, [`${productContext.products}`, productContext.loading]);
+
+  useEffect(() => {
     if (productContext.error) {
       toast.error(
         productContext.error.msg || productContext.error.errors[0].msg
       );
     }
-    //eslint-disable-next-line
-  }, [productContext.products, productContext.error]);
+  }, [productContext.error]);
   return (
     <TableContainer>
       <MyTable className={classes.table} aria-label='customized table'>
@@ -81,7 +88,8 @@ const ProductTable = () => {
           {productContext.loading ? (
             <Loader />
           ) : (
-            productContext.products.map((row) => (
+            productContext.products.results &&
+            productContext.products.results.map((row) => (
               <StyledTableRow key={row.name}>
                 <StyledTableCell align='right'>{row.name}</StyledTableCell>
                 <StyledTableCell align='right'>{row.price}</StyledTableCell>
@@ -116,6 +124,7 @@ const ProductTable = () => {
                     }}
                     onClick={() => {
                       productContext.deleteProduct(row._id);
+                      productContext.getAllProducts(10, page);
                     }}
                   />
                   <InfoIcon
@@ -140,6 +149,29 @@ const ProductTable = () => {
           )}
         </TableBody>
       </MyTable>
+      {productContext.products.pages > 1 && (
+        <Box
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            width: '100%',
+            margin: '2rem 0',
+          }}
+        >
+          <Pagination
+            color='primary'
+            size='large'
+            variant='outlined'
+            count={productContext.products.pages}
+            page={page}
+            onChange={(e, value) => {
+              productContext.setLoading();
+              setPage(value);
+              productContext.getAllProducts(1, value);
+            }}
+          />
+        </Box>
+      )}
     </TableContainer>
   );
 };

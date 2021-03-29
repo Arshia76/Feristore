@@ -2,11 +2,11 @@ const express = require('express');
 const router = express.Router();
 const Category = require('../models/Category');
 const { check, validationResult } = require('express-validator');
+const paginatedResults = require('../middleware/pagination');
 
-router.get('/', async (req, res) => {
+router.get('/', paginatedResults(Category), async (req, res) => {
   try {
-    const data = await Category.find({});
-    return res.status(200).json(data);
+    return res.status(200).json(res.paginatedResults);
   } catch (err) {
     return res.status(500).json({ msg: 'خطای سرور' });
   }
@@ -24,7 +24,7 @@ router.post(
     }
     try {
       const { category } = req.body;
-      exist = Category.findOne({ category });
+      const exist = await Category.findOne({ category });
       if (exist) {
         return res.status(400).json({ msg: 'دسته بندی موجود است' });
       }
@@ -49,7 +49,7 @@ router.put(
     }
     try {
       const { category } = req.body;
-      exist = Category.findOne({ category });
+      const exist = await Category.findOne({ category });
       if (exist) {
         return res.status(400).json({ msg: 'دسته بندی موجود است' });
       }

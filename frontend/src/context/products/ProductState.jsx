@@ -49,9 +49,11 @@ const ProductState = (props) => {
     }
   };
 
-  const getSpecialProducts = async () => {
+  const getSpecialProducts = async (limit, page) => {
     try {
-      const res = await axios.get('/api/products/special/products');
+      const res = await axios.get(
+        `/api/products/special/products?limit=${limit}&page=${page}`
+      );
       dispatch({
         type: types.GET_SPECIAL_PRODUCTS_SUCCESS,
         payload: res.data,
@@ -64,9 +66,9 @@ const ProductState = (props) => {
     }
   };
 
-  const getAllProducts = async () => {
+  const getAllProducts = async (limit, page) => {
     try {
-      const res = await axios.get('/api/products/', {
+      const res = await axios.get(`/api/products?limit=${limit}&page=${page}`, {
         headers: {
           'auth-token': localStorage.getItem('auth-token'),
         },
@@ -158,9 +160,11 @@ const ProductState = (props) => {
     }
   };
 
-  const getProductByCategory = async (category) => {
+  const getProductByCategory = async (category, limit, page) => {
     try {
-      const res = await axios.get(`/api/products/${category}`);
+      const res = await axios.get(
+        `/api/products/${category}?limit=${limit}&page=${page}`
+      );
       dispatch({
         type: types.GET_PRODUCTS_BY_CATEGORY_SUCCESS,
         payload: res.data,
@@ -176,6 +180,12 @@ const ProductState = (props) => {
   const clearErrors = () => {
     dispatch({
       type: types.CLEAR_ERRORS,
+    });
+  };
+
+  const setLoading = () => {
+    dispatch({
+      type: types.PRODUCT_LOADING,
     });
   };
 
@@ -200,6 +210,7 @@ const ProductState = (props) => {
         getSpecialProducts,
         clearErrors,
         getDiscountProducts,
+        setLoading,
       }}
     >
       {props.children}

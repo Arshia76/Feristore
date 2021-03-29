@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, Fragment } from 'react';
+import React, { useState, useContext, useEffect, Fragment } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
   Container,
@@ -12,6 +12,7 @@ import {
   Button,
   TextField,
 } from '@material-ui/core';
+import { Pagination } from '@material-ui/lab';
 import ReactStars from 'react-stars';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import ProductContext from '../context/products/ProductContext';
@@ -20,6 +21,7 @@ import Comment from '../components/Comment';
 import ReviewContext from '../context/review/ReviewContext';
 import AuthContext from '../context/auth/AuthContext';
 import { toast } from 'react-toastify';
+import Loader from '../components/Loader/Loader';
 
 const BootstrapInput = withStyles((theme) => ({
   root: {
@@ -170,9 +172,9 @@ const Detail = ({ match }) => {
   const cartContext = useContext(CartContext);
   const reviewContext = useContext(ReviewContext);
   const authContext = useContext(AuthContext);
-
   const history = useHistory();
   const classes = useStyles();
+  const [page, setPage] = useState(1);
 
   const [state, setState] = useState({
     review: '',
@@ -180,14 +182,25 @@ const Detail = ({ match }) => {
     reviewer: authContext.user,
   });
 
+  useEffect(
+    () => {
+      productContext.productDetail(match.params.id);
+      reviewContext.getProductReviews(match.params.id, 10, page);
+      if (reviewContext.message !== '') {
+        toast.success(reviewContext.message.msg);
+      }
+    },
+    //eslint-disable-next-line
+    [match, reviewContext.message]
+  );
+
   useEffect(() => {
-    productContext.productDetail(match.params.id);
-    reviewContext.getProductReviews(match.params.id);
-    if (reviewContext.error) {
+    if (reviewContext.error !== null) {
       toast.error(reviewContext.error.msg || reviewContext.error.errors[0].msg);
     }
+
     //eslint-disable-next-line
-  }, [match.params.id, reviewContext.reviews, reviewContext.error]);
+  }, [reviewContext.error]);
 
   const [stock, setStock] = React.useState(1);
 
@@ -296,8 +309,11 @@ const Detail = ({ match }) => {
           <hr />
         </Box>
         <Box className={classes.commentBody}>
-          {reviewContext.reviews &&
-            reviewContext.reviews.map((r) => {
+          {reviewContext.loading ? (
+            <Loader />
+          ) : (
+            reviewContext.reviews.results &&
+            reviewContext.reviews.results.map((r) => {
               return (
                 <Comment
                   username={r.reviewer}
@@ -305,7 +321,31 @@ const Detail = ({ match }) => {
                   rating={r.rating}
                 />
               );
-            })}
+            })
+          )}
+          {reviewContext.reviews.pages > 1 && (
+            <Box
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                width: '100%',
+                margin: '2rem 0',
+              }}
+            >
+              <Pagination
+                color='primary'
+                size='large'
+                variant='outlined'
+                count={reviewContext.reviews.pages}
+                page={page}
+                onChange={(e, value) => {
+                  reviewContext.setLoading();
+                  setPage(value);
+                  reviewContext.getProductReviews(match.params.id, 10, value);
+                }}
+              />
+            </Box>
+          )}
         </Box>
         <TextField
           style={{ marginTop: '1rem' }}
@@ -340,10 +380,9 @@ const Detail = ({ match }) => {
           style={{ margin: '1rem 0' }}
           variant='outlined'
           onClick={() => {
+            reviewContext.setLoading();
             reviewContext.createReview(match.params.id, state);
-            if (!reviewContext.error) {
-              toast.success(reviewContext.message.msg);
-            }
+
             setState({ rating: '', review: '' });
           }}
         >

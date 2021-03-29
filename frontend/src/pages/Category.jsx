@@ -1,8 +1,9 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Grid, Box, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import CategoryItem from '../components/CategoryItem';
 import ProductContext from '../context/products/ProductContext';
+import { Pagination } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,11 +24,11 @@ const useStyles = makeStyles((theme) => ({
 
 const Category = ({ match }) => {
   const classes = useStyles();
-
+  const [page, setPage] = useState(1);
   const productContext = useContext(ProductContext);
 
   useEffect(() => {
-    productContext.getProductByCategory(match.params.category);
+    productContext.getProductByCategory(match.params.category, 10, page);
     //eslint-disable-next-line
   }, [match.params.category]);
 
@@ -37,8 +38,8 @@ const Category = ({ match }) => {
         {match.params.category}
       </Typography>
       <Grid direction='row-reverse' container spacing={3}>
-        {productContext.products.length > 0 ? (
-          productContext.products.map((product) => {
+        {productContext.products.results.length > 0 ? (
+          productContext.products.results.map((product) => {
             return <CategoryItem key={product._id} product={product} />;
           })
         ) : (
@@ -47,6 +48,32 @@ const Category = ({ match }) => {
           </Typography>
         )}
       </Grid>
+      {productContext.products.pages > 1 && (
+        <Box
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            width: '100%',
+            margin: '2rem 0',
+          }}
+        >
+          <Pagination
+            color='primary'
+            size='large'
+            variant='outlined'
+            count={productContext.products.pages}
+            page={page}
+            onChange={(e, value) => {
+              setPage(value);
+              productContext.getProductByCategory(
+                match.params.category,
+                10,
+                value
+              );
+            }}
+          />
+        </Box>
+      )}
     </Box>
   );
 };

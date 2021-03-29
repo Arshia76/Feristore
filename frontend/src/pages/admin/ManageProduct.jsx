@@ -146,11 +146,14 @@ const ManageProduct = ({ history, location }) => {
     formdata.append('productImage', state.productImage);
     formdata.append('discount', state.discount);
     if (type === 'ایجاد محصول') {
+      productContext.setLoading();
       productContext.createProduct(formdata);
+      history.push('/admin/products');
     } else {
+      productContext.setLoading();
       productContext.updateProduct(id, formdata);
+      history.push('/admin/products');
     }
-    history.push('/admin/products');
   };
   useEffect(() => {
     if (productContext.error) {
@@ -213,13 +216,14 @@ const ManageProduct = ({ history, location }) => {
             <MenuItem value=''>
               <em>دسته بندی محصول</em>
             </MenuItem>
-            {categoryContext.category.map((category) => {
-              return (
-                <MenuItem key={category._id} value={category.category}>
-                  {category.category}
-                </MenuItem>
-              );
-            })}
+            {categoryContext.category.results &&
+              categoryContext.category.results.map((category) => {
+                return (
+                  <MenuItem key={category._id} value={category.category}>
+                    {category.category}
+                  </MenuItem>
+                );
+              })}
           </Select>
           <TextField
             style={{ textAlign: 'right', width: '100%' }}

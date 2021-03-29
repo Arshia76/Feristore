@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import MyTable from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -6,9 +6,11 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { Pagination } from '@material-ui/lab';
 import { Link } from 'react-router-dom';
 import OrderContext from '../../context/orders/OrderContext';
 import Loader from '../Loader/Loader';
+import { Box } from '@material-ui/core';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -63,11 +65,13 @@ const useStyles = makeStyles((theme) => ({
 const OrderTable = () => {
   const classes = useStyles();
   const orderContext = useContext(OrderContext);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    orderContext.getAllOrders();
+    orderContext.getAllOrders(10, page);
     //eslint-disable-next-line
-  }, [orderContext.order, orderContext.loading]);
+  }, [`${orderContext.orders}`, orderContext.loading]);
+
   return (
     <TableContainer>
       <MyTable className={classes.table} aria-label='customized table'>
@@ -83,8 +87,8 @@ const OrderTable = () => {
           {orderContext.loading ? (
             <Loader />
           ) : (
-            orderContext.orders &&
-            orderContext.orders.map((row) => (
+            orderContext.orders.results &&
+            orderContext.orders.results.map((row) => (
               <StyledTableRow key={row !== undefined && row._id}>
                 <StyledTableCell align='right'>
                   {row !== undefined && row._id}
@@ -107,9 +111,8 @@ const OrderTable = () => {
                       className={classes.link}
                       onClick={() => {
                         orderContext.setLoading();
-                        orderContext.updateSentDate(
-                          row !== undefined && row._id
-                        );
+                        orderContext.updateSentDate(row._id);
+                        orderContext.getAllOrders(10, page);
                       }}
                     >
                       ارسال
@@ -121,6 +124,29 @@ const OrderTable = () => {
           )}
         </TableBody>
       </MyTable>
+      {orderContext.orders.pages > 1 && (
+        <Box
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            width: '100%',
+            margin: '2rem 0',
+          }}
+        >
+          <Pagination
+            color='primary'
+            size='large'
+            variant='outlined'
+            count={orderContext.orders.pages}
+            page={page}
+            onChange={(e, value) => {
+              setPage(value);
+              orderContext.setLoading();
+              orderContext.getAllOrders(10, value);
+            }}
+          />
+        </Box>
+      )}
     </TableContainer>
   );
 };

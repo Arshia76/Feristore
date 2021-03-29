@@ -10,6 +10,7 @@ const UserState = (props) => {
     error: null,
     loading: true,
     users: [],
+    message: '',
   };
 
   const [state, dispatch] = useReducer(UserReducer, initialState);
@@ -33,9 +34,9 @@ const UserState = (props) => {
     }
   };
 
-  const getUsers = async () => {
+  const getUsers = async (limit, page) => {
     try {
-      const res = await axios.get('/api/users', {
+      const res = await axios.get(`/api/users?limit=${limit}&page=${page}`, {
         headers: {
           'auth-token': localStorage.getItem('auth-token'),
         },
@@ -97,6 +98,12 @@ const UserState = (props) => {
     });
   };
 
+  const setLoading = () => {
+    dispatch({
+      type: types.USER_LOADING,
+    });
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -104,11 +111,13 @@ const UserState = (props) => {
         users: state.users,
         error: state.error,
         loading: state.loading,
+        message: state.message,
         getUser,
         getUsers,
         updateUser,
         deleteUser,
         clearErrors,
+        setLoading,
       }}
     >
       {props.children}

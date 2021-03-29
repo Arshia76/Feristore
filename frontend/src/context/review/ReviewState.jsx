@@ -14,13 +14,16 @@ const ReviewState = (props) => {
 
   const [state, dispatch] = useReducer(ReviewReducer, initialState);
 
-  const getProductReviews = async (id) => {
+  const getProductReviews = async (id, limit, page) => {
     try {
-      const res = await axios.get(`/api/reviews/${id}`, {
-        headers: {
-          'auth-token': localStorage.getItem('auth-token'),
-        },
-      });
+      const res = await axios.get(
+        `/api/reviews/${id}?limit=${limit}&page=${page}`,
+        {
+          headers: {
+            'auth-token': localStorage.getItem('auth-token'),
+          },
+        }
+      );
 
       dispatch({
         type: types.GET_PRODUCT_REVIEWS_SUCCESS,
@@ -76,6 +79,12 @@ const ReviewState = (props) => {
     }
   };
 
+  const setLoading = () => {
+    dispatch({
+      type: types.REVIEW_LOADING,
+    });
+  };
+
   return (
     <ReviewContext.Provider
       value={{
@@ -83,6 +92,7 @@ const ReviewState = (props) => {
         createReview,
         getProductReviews,
         deleteComment,
+        setLoading,
         error: state.error,
         loading: state.loading,
         message: state.message,

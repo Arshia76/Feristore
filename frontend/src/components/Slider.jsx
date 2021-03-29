@@ -21,34 +21,36 @@ const Slider = () => {
   const productContext = useContext(ProductContext);
 
   return (
-    <Box style={{ padding: '1rem 0' }}>
-      {productContext.newProducts.length > 0 && (
-        <Fragment>
-          <Typography className={classes.text} variant='h3'>
-            محصولات جدید
-          </Typography>
-          <Carousel
-            navButtonsAlwaysVisible
-            indicators={false}
-            className={classes.carousel}
-          >
-            {productContext.loading ? (
-              <Loader />
-            ) : (
-              productContext.newProducts.map((product) => {
-                return (
-                  <SliderItem
-                    key={product._id}
-                    image={product.image}
-                    name={product.name}
-                  />
-                );
-              })
-            )}
-          </Carousel>
-        </Fragment>
+    <Fragment>
+      {productContext.loading ? (
+        <Loader />
+      ) : (
+        productContext.newProducts.length > 0 && (
+          <Box style={{ padding: '1rem 0' }}>
+            <Fragment>
+              <Typography className={classes.text} variant='h3'>
+                محصولات جدید
+              </Typography>
+              <Carousel
+                navButtonsAlwaysVisible
+                indicators={false}
+                className={classes.carousel}
+              >
+                {productContext.newProducts.map((product) => {
+                  return (
+                    <SliderItem
+                      key={product._id}
+                      image={product.image}
+                      name={product.name}
+                    />
+                  );
+                })}
+              </Carousel>
+            </Fragment>
+          </Box>
+        )
       )}
-    </Box>
+    </Fragment>
   );
 };
 

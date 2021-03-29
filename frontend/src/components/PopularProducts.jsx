@@ -1,5 +1,6 @@
-import React, { useContext, Fragment } from 'react';
+import React, { useContext, Fragment, useState } from 'react';
 import { Grid, Box, Typography } from '@material-ui/core';
+import { Pagination } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/core/styles';
 import PopularProductItem from './PopularProductItem';
 import ProductContext from '../context/products/ProductContext';
@@ -18,29 +19,57 @@ const useStyles = makeStyles((theme) => ({
 
 const PopularProducts = () => {
   const productContext = useContext(ProductContext);
+  const [page, setPage] = useState(1);
 
   const classes = useStyles();
   return (
-    <Box className={classes.root}>
-      {productContext.specialProducts.length > 0 && (
-        <Fragment>
-          <Typography className={classes.text} variant='h3'>
-            محصولات ویژه
-          </Typography>
-          <Grid direction='row-reverse' container spacing={3}>
-            {productContext.loading ? (
-              <Loader />
-            ) : (
-              productContext.specialProducts.map((product) => {
-                return (
-                  <PopularProductItem key={product._id} product={product} />
-                );
-              })
-            )}
-          </Grid>
-        </Fragment>
+    <Fragment>
+      {productContext.loading ? (
+        <Loader />
+      ) : (
+        productContext.specialProducts.results &&
+        productContext.specialProducts.results.length > 0 && (
+          <Box className={classes.root}>
+            <Fragment>
+              <Typography className={classes.text} variant='h3'>
+                محصولات ویژه
+              </Typography>
+              <Grid direction='row-reverse' container spacing={3}>
+                {productContext.specialProducts.results &&
+                  productContext.specialProducts.results.map((product) => {
+                    return (
+                      <PopularProductItem key={product._id} product={product} />
+                    );
+                  })}
+              </Grid>
+              {productContext.specialProducts.pages > 1 && (
+                <Box
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    width: '100%',
+                    margin: '2rem 0',
+                  }}
+                >
+                  <Pagination
+                    color='primary'
+                    size='large'
+                    variant='outlined'
+                    count={productContext.specialProducts.pages}
+                    page={page}
+                    onChange={(e, value) => {
+                      productContext.setLoading();
+                      setPage(value);
+                      productContext.getSpecialProducts(6, value);
+                    }}
+                  />
+                </Box>
+              )}
+            </Fragment>
+          </Box>
+        )
       )}
-    </Box>
+    </Fragment>
   );
 };
 

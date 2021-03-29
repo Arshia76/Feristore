@@ -3,11 +3,11 @@ const router = express.Router();
 const Product = require('../models/Product');
 const { authorize, admin } = require('../middleware/authorize');
 const { check, validationResult } = require('express-validator');
+const paginatedResults = require('../middleware/pagination');
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', paginatedResults(Product, 'reviews'), async (req, res) => {
   try {
-    const data = await Product.findById(req.params.id);
-    return res.status(200).json(data.reviews);
+    return res.status(200).json(res.paginatedResults);
   } catch (err) {
     return res.status(500).json({ msg: 'حطای سرور' });
   }

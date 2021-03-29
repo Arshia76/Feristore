@@ -4,16 +4,16 @@ const Order = require('../models/Order');
 const { authorize, admin } = require('../middleware/authorize');
 const ZarinpalCheckout = require('zarinpal-checkout');
 const User = require('../models/User');
+const paginatedResults = require('../middleware/pagination');
 
 const zarinpal = ZarinpalCheckout.create(
   'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
   true
 );
 
-router.get('/', authorize, admin, async (req, res) => {
+router.get('/', authorize, admin, paginatedResults(Order), async (req, res) => {
   try {
-    const data = await Order.find({});
-    return res.status(200).json(data);
+    return res.status(200).json(res.paginatedResults);
   } catch (err) {
     return res.status(500).json({ msg: 'خطای سرور' });
   }
@@ -28,16 +28,21 @@ router.get('/:id', authorize, async (req, res) => {
   }
 });
 
-router.get('/user/:id', authorize, async (req, res) => {
-  try {
-    const mUser = await User.findById(req.params.id);
-    const orders = await Order.find({ 'user.email': mUser.email });
+router.get(
+  '/user/:id',
+  authorize,
+  paginatedResults(Order, 'userOrder', User),
+  async (req, res) => {
+    try {
+      // const mUser = await User.findById(req.params.id);
+      // const orders = await Order.find({ 'user.email': mUser.email });
 
-    return res.status(200).json(orders);
-  } catch (err) {
-    return res.status(500).json({ msg: 'خطای سرور' });
+      return res.status(200).json(res.paginatedResults);
+    } catch (err) {
+      return res.status(500).json({ msg: 'خطای سرور' });
+    }
   }
-});
+);
 
 router.post('/create', authorize, async (req, res) => {
   try {

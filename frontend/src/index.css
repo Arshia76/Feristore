@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@700&display=swap');
+@import '~slick-carousel/slick/slick.css';
+@import '~slick-carousel/slick/slick-theme.css';
 
 body {
   margin: 0;
@@ -12,4 +14,16 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.owl-prev {
+  color: black !important;
+  font-size: 5rem !important;
+  margin: 0 2rem !important;
+}
+
+.owl-next {
+  color: black !important;
+  font-size: 5rem !important;
+  margin: 0 2rem !important;
 }

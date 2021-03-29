@@ -4,11 +4,11 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const { authorize, admin } = require('../middleware/authorize');
 const { check, validationResult } = require('express-validator');
+const paginatedResults = require('../middleware/pagination');
 
-router.get('/', authorize, admin, async (req, res) => {
+router.get('/', authorize, admin, paginatedResults(User), async (req, res) => {
   try {
-    const users = await User.find({});
-    return res.status(200).json(users);
+    return res.status(200).json(res.paginatedResults);
   } catch (err) {
     return res.status(500).json({ msg: 'خطای سرور' });
   }
@@ -68,7 +68,9 @@ router.put(
           },
           { new: true }
         );
-        return res.status(200).json(updatedUser);
+        return res
+          .status(200)
+          .json({ updatedUser, msg: 'با موفقیت بروز رسانی شد' });
       }
       const updatedUser = await User.findByIdAndUpdate(
         req.params.id,
@@ -78,7 +80,9 @@ router.put(
         },
         { new: true }
       );
-      return res.status(200).json(updatedUser);
+      return res
+        .status(200)
+        .json({ updatedUser, msg: 'با موفقیت بروز رسانی شد' });
     } catch (err) {
       return res.status(500).json({ msg: 'خطای سرور' });
     }

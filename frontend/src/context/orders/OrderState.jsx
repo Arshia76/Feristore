@@ -9,7 +9,7 @@ const OrderState = (props) => {
     error: null,
     loading: true,
     order: {},
-    orders: [],
+    orders: { results: [], pages: null },
     url: '',
     message: '',
   };
@@ -41,9 +41,9 @@ const OrderState = (props) => {
     }
   };
 
-  const getAllOrders = async () => {
+  const getAllOrders = async (limit, page) => {
     try {
-      const res = await axios.get('/api/orders/', {
+      const res = await axios.get(`/api/orders?limit=${limit}&page=${page}`, {
         headers: {
           'auth-token': localStorage.getItem('auth-token'),
         },
@@ -60,13 +60,16 @@ const OrderState = (props) => {
     }
   };
 
-  const getUserOrders = async (id) => {
+  const getUserOrders = async (id, limit, page) => {
     try {
-      const res = await axios.get(`/api/orders/user/${id}`, {
-        headers: {
-          'auth-token': localStorage.getItem('auth-token'),
-        },
-      });
+      const res = await axios.get(
+        `/api/orders/user/${id}?limit=${limit}&page=${page}`,
+        {
+          headers: {
+            'auth-token': localStorage.getItem('auth-token'),
+          },
+        }
+      );
 
       dispatch({
         type: types.GET_USER_ORDERS_SUCCESS,
@@ -147,7 +150,7 @@ const OrderState = (props) => {
 
   const updateSentDate = async (id) => {
     try {
-      const res = axios.put(`/api/orders/update/sentDate/${id}`, null, {
+      const res = await axios.put(`/api/orders/update/sentDate/${id}`, null, {
         headers: {
           'Content-Type': 'application/json',
           'auth-token': localStorage.getItem('auth-token'),
@@ -186,8 +189,7 @@ const OrderState = (props) => {
       });
     } catch (err) {
       dispatch({
-        type: types.UPDATE_ORDER_SENT_DATE_SUCCESS,
-        payload: err.response.data,
+        type: types.UPDATE_ORDER_PAY_DATE_FAIL,
       });
     }
   };

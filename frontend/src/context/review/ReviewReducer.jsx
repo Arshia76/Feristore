@@ -8,6 +8,7 @@ const ReviewReducer = (state, action) => {
         loading: false,
         error: null,
         reviews: action.payload,
+        message: '',
       };
 
     case types.GET_PRODUCT_REVIEWS_FAIL:
@@ -45,6 +46,13 @@ const ReviewReducer = (state, action) => {
         ...state,
         loading: false,
         error: action.payload,
+        message: '',
+      };
+
+    case types.REVIEW_LOADING:
+      return {
+        ...state,
+        loading: true,
       };
 
     default:

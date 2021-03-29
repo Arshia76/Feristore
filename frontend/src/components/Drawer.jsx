@@ -63,7 +63,7 @@ const Drawer = ({ open, handleClose }) => {
   const authContext = useContext(AuthContext);
 
   useEffect(() => {
-    categoryContext.getCategories();
+    categoryContext.getCategories(1000, 1);
     //eslint-disable-next-line
   }, [`${categoryContext.category}`]);
   return (
@@ -83,7 +83,8 @@ const Drawer = ({ open, handleClose }) => {
       </Typography>
       <List className={classes.list}>
         {!authContext.isAdmin &&
-          categoryContext.category.map((category) => {
+          categoryContext.category.results &&
+          categoryContext.category.results.map((category) => {
             return (
               <Link to={`/categories/${category.category}`} key={category._id}>
                 <ListItemText className={classes.listItem}>

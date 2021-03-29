@@ -13,6 +13,8 @@ import { toast } from 'react-toastify';
 import UserContext from '../context/users/UserContext';
 import AuthContext from '../context/auth/AuthContext';
 import OrderContext from '../context/orders/OrderContext';
+import Loader from '../components/Loader/Loader';
+import { Fragment } from 'react';
 
 const useStyles = makeStyles({
   root: {
@@ -114,95 +116,105 @@ const OrderInformation = () => {
     });
   };
   return (
-    <Container className={classes.root} maxWidth='xl'>
-      <Box className={classes.box}>
-        <Typography className={classes.text} variant='h4'>
-          مشخصات
-        </Typography>
-        <FormControl className={classes.form}>
-          <TextField
-            name='name'
-            type='text'
-            label='نام'
-            value={state.name}
-            inputProps={{ style: { textAlign: 'right' } }}
-            variant='outlined'
-            readOnly
-          />
-          <TextField
-            name='email'
-            type='email'
-            label='ایمیل'
-            value={state.email}
-            inputProps={{ style: { textAlign: 'right' } }}
-            variant='outlined'
-            readOnly
-          />
-          <TextField
-            name='phoneNumber'
-            type='text'
-            value={state.phoneNumber}
-            label='شماره همراه'
-            inputProps={{ style: { textAlign: 'right' } }}
-            variant='outlined'
-            onChange={onChange}
-          />
-          <TextField
-            name='city'
-            type='text'
-            value={state.city}
-            label='شهر'
-            inputProps={{ style: { textAlign: 'right' } }}
-            variant='outlined'
-            onChange={onChange}
-          />
-          <TextField
-            name='address'
-            type='text'
-            value={state.address}
-            label='آدرس'
-            multiline
-            inputProps={{
-              style: { textAlign: 'right', height: '5rem', width: '22.8rem' },
-            }}
-            variant='outlined'
-            onChange={onChange}
-          />
-          <TextField
-            name='postalCode'
-            style={{ textAlign: 'right' }}
-            type='text'
-            label='کد پستی'
-            value={state.postalCode}
-            inputProps={{ style: { textAlign: 'right' } }}
-            variant='outlined'
-            onChange={onChange}
-          />
-          <Button
-            onClick={(e) => {
-              e.preventDefault();
-              if (
-                state.name === '' ||
-                state.email === '' ||
-                state.phoneNumber === '' ||
-                state.address === '' ||
-                state.postalCode === '' ||
-                state.city === ''
-              ) {
-                toast.error('لطفا تمام خانه ها را تکمیل کنید');
-              } else {
-                localStorage.setItem('personInfo', JSON.stringify(state));
-                history.push('/payment');
-              }
-            }}
-            type='submit'
-            className={classes.button}
-          >
-            ثبت خرید
-          </Button>
-        </FormControl>
-      </Box>
-    </Container>
+    <Fragment>
+      {userContext.loading ? (
+        <Loader />
+      ) : (
+        <Container className={classes.root} maxWidth='xl'>
+          <Box className={classes.box}>
+            <Typography className={classes.text} variant='h4'>
+              مشخصات
+            </Typography>
+            <FormControl className={classes.form}>
+              <TextField
+                name='name'
+                type='text'
+                label='نام'
+                value={state.name}
+                inputProps={{ style: { textAlign: 'right' } }}
+                variant='outlined'
+                readOnly
+              />
+              <TextField
+                name='email'
+                type='email'
+                label='ایمیل'
+                value={state.email}
+                inputProps={{ style: { textAlign: 'right' } }}
+                variant='outlined'
+                readOnly
+              />
+              <TextField
+                name='phoneNumber'
+                type='text'
+                value={state.phoneNumber}
+                label='شماره همراه'
+                inputProps={{ style: { textAlign: 'right' } }}
+                variant='outlined'
+                onChange={onChange}
+              />
+              <TextField
+                name='city'
+                type='text'
+                value={state.city}
+                label='شهر'
+                inputProps={{ style: { textAlign: 'right' } }}
+                variant='outlined'
+                onChange={onChange}
+              />
+              <TextField
+                name='address'
+                type='text'
+                value={state.address}
+                label='آدرس'
+                multiline
+                inputProps={{
+                  style: {
+                    textAlign: 'right',
+                    height: '5rem',
+                    width: '22.8rem',
+                  },
+                }}
+                variant='outlined'
+                onChange={onChange}
+              />
+              <TextField
+                name='postalCode'
+                style={{ textAlign: 'right' }}
+                type='text'
+                label='کد پستی'
+                value={state.postalCode}
+                inputProps={{ style: { textAlign: 'right' } }}
+                variant='outlined'
+                onChange={onChange}
+              />
+              <Button
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (
+                    state.name === '' ||
+                    state.email === '' ||
+                    state.phoneNumber === '' ||
+                    state.address === '' ||
+                    state.postalCode === '' ||
+                    state.city === ''
+                  ) {
+                    toast.error('لطفا تمام خانه ها را تکمیل کنید');
+                  } else {
+                    localStorage.setItem('personInfo', JSON.stringify(state));
+                    history.push('/payment');
+                  }
+                }}
+                type='submit'
+                className={classes.button}
+              >
+                ثبت خرید
+              </Button>
+            </FormControl>
+          </Box>
+        </Container>
+      )}
+    </Fragment>
   );
 };
 

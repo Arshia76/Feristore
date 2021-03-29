@@ -4,33 +4,45 @@ const Product = require('../models/Product');
 const { authorize, admin } = require('../middleware/authorize');
 const uploadHandlerProduct = require('../middleware/multer');
 const { check, validationResult } = require('express-validator');
+const paginatedResults = require('../middleware/pagination');
 
-router.get('/', authorize, admin, async (req, res) => {
-  try {
-    const products = await Product.find({});
-    return res.status(200).json(products);
-  } catch (err) {
-    return res.status(500).json({ msg: 'خطای سرور' });
+router.get(
+  '/',
+  authorize,
+  admin,
+  paginatedResults(Product),
+  async (req, res) => {
+    try {
+      return res.status(200).json(res.paginatedResults);
+    } catch (err) {
+      return res.status(500).json({ msg: 'خطای سرور' });
+    }
   }
-});
+);
 
-router.get('/:category', async (req, res) => {
-  try {
-    const data = await Product.find({ category: req.params.category });
-    return res.status(200).json(data);
-  } catch (err) {
-    return res.status(500).json({ msg: 'خطای سرور' });
+router.get(
+  '/:category',
+  paginatedResults(Product, 'category'),
+  async (req, res) => {
+    try {
+      return res.status(200).json(res.paginatedResults);
+    } catch (err) {
+      return res.status(500).json({ msg: 'خطای سرور' });
+    }
   }
-});
+);
 
-router.get('/special/products', async (req, res) => {
-  try {
-    const data = await Product.find({ special: true });
-    return res.status(200).json(data);
-  } catch (err) {
-    return res.status(500).json({ msg: 'خطای سرور' });
+router.get(
+  '/special/products',
+  paginatedResults(Product, 'special'),
+  async (req, res) => {
+    try {
+      return res.status(200).json(res.paginatedResults);
+    } catch (err) {
+      return res.status(500).json({ msg: 'خطای سرور' });
+    }
   }
-});
+);
 
 router.get('/new/products', async (req, res) => {
   try {

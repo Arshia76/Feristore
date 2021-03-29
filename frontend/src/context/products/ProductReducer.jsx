@@ -67,7 +67,7 @@ const ProductReducer = (state, action) => {
         ...state,
         error: null,
         loading: false,
-        products: [...state.products, action.payload],
+        products: [...state.products.results, action.payload],
       };
 
     case types.CREATE_PRODUCT_FAIL:
@@ -83,7 +83,7 @@ const ProductReducer = (state, action) => {
         loading: false,
         error: null,
         message: action.payload.msg,
-        products: state.products.filter(
+        products: state.products.results.filter(
           (product) => product._id !== action.payload._id
         ),
       };
@@ -101,7 +101,7 @@ const ProductReducer = (state, action) => {
         ...state,
         loading: false,
         error: null,
-        products: state.products.map((product) =>
+        products: state.products.results.map((product) =>
           product._id === action.payload._id ? action.payload : product
         ),
       };
@@ -148,6 +148,12 @@ const ProductReducer = (state, action) => {
         ...state,
         loading: false,
         error: action.payload,
+      };
+
+    case types.PRODUCT_LOADING:
+      return {
+        ...state,
+        loading: true,
       };
 
     default:

@@ -14,9 +14,11 @@ const CategoryState = (props) => {
 
   const [state, dispatch] = useReducer(CategoryReducer, initialState);
 
-  const getCategories = async () => {
+  const getCategories = async (limit, page) => {
     try {
-      const res = await axios.get('/api/categories');
+      const res = await axios.get(
+        `/api/categories?limit=${limit}&page=${page}`
+      );
       dispatch({
         type: types.GET_CATEGORIES_SUCCESS,
         payload: res.data,
@@ -98,6 +100,12 @@ const CategoryState = (props) => {
     }
   };
 
+  const setLoading = () => {
+    dispatch({
+      type: types.CATEGORY_LOADING,
+    });
+  };
+
   return (
     <CategoryContext.Provider
       value={{
@@ -109,6 +117,7 @@ const CategoryState = (props) => {
         updateCategory,
         deleteCategory,
         getCategories,
+        setLoading,
       }}
     >
       {props.children}

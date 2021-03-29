@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import MyTable from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -9,6 +9,8 @@ import { withStyles, makeStyles } from '@material-ui/core/styles';
 import UserContext from '../../context/users/UserContext';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Loader from '../Loader/Loader';
+import { Pagination } from '@material-ui/lab';
+import { Box } from '@material-ui/core';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -42,11 +44,12 @@ const useStyles = makeStyles((theme) => ({
 const CustomerTable = () => {
   const classes = useStyles();
   const userContext = useContext(UserContext);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    userContext.getUsers();
+    userContext.getUsers(10, page);
     //eslint-disable-next-line
-  }, [userContext.users]);
+  }, [`${userContext.users}`, userContext.loading]);
   return (
     <TableContainer>
       <MyTable className={classes.table} aria-label='customized table'>
@@ -61,7 +64,8 @@ const CustomerTable = () => {
           {userContext.loading ? (
             <Loader />
           ) : (
-            userContext.users.map((row) => (
+            userContext.users.results &&
+            userContext.users.results.map((row) => (
               <StyledTableRow key={row.name}>
                 <StyledTableCell align='right'>{row.username}</StyledTableCell>
                 <StyledTableCell align='right'>{row.email}</StyledTableCell>
@@ -82,6 +86,29 @@ const CustomerTable = () => {
           )}
         </TableBody>
       </MyTable>
+      {userContext.users.pages > 1 && (
+        <Box
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            width: '100%',
+            margin: '2rem 0',
+          }}
+        >
+          <Pagination
+            color='primary'
+            size='large'
+            variant='outlined'
+            count={userContext.users.pages}
+            page={page}
+            onChange={(e, value) => {
+              userContext.setLoading();
+              setPage(value);
+              userContext.getUsers(10, value);
+            }}
+          />
+        </Box>
+      )}
     </TableContainer>
   );
 };

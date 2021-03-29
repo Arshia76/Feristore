@@ -8,6 +8,7 @@ const UserReducer = (state, action) => {
         loading: false,
         error: null,
         user: action.payload,
+        message: '',
       };
 
     case types.GET_USER_FAIL:
@@ -16,6 +17,7 @@ const UserReducer = (state, action) => {
         loading: false,
         error: action.payload,
         user: null,
+        message: '',
       };
 
     case types.UPDATE_USER_SUCCESS:
@@ -23,7 +25,8 @@ const UserReducer = (state, action) => {
         ...state,
         loading: false,
         error: null,
-        user: action.payload,
+        user: action.payload.updatedUser,
+        message: action.payload.msg,
       };
 
     case types.UPDATE_USER_FAIL:
@@ -68,6 +71,12 @@ const UserReducer = (state, action) => {
         ...state,
         error: action.payload,
         loading: false,
+      };
+
+    case types.USER_LOADING:
+      return {
+        ...state,
+        loading: true,
       };
     default:
       return state;

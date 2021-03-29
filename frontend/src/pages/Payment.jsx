@@ -3,7 +3,6 @@ import { Box, Button, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import OrderContext from '../context/orders/OrderContext';
 import CartContext from '../context/cart/CartContext';
-import Loader from '../components/Loader/Loader';
 
 const useStyles = makeStyles({
   root: {
@@ -122,7 +121,6 @@ const Payment = ({ history }) => {
   const createOrder = async (e) => {
     e.preventDefault();
     orderContext.setLoading();
-
     await orderContext.createOrder(JSON.stringify(state));
   };
 
@@ -147,151 +145,144 @@ const Payment = ({ history }) => {
 
   return (
     <Grid container className={classes.root} spacing={4}>
-      {orderContext.loading ? (
-        <Loader />
-      ) : (
-        <Fragment>
-          <Grid direction='column' item xs={12} md={4}>
-            <Box className={classes.orderDetail}>
-              <Typography
-                style={{ margin: '.5rem 0', textAlign: 'center' }}
-                variant='h4'
-              >
-                اطلاعات پرداخت
-              </Typography>
-              <hr />
-              <Box style={{ padding: '1rem', direction: 'rtl' }}>
-                <Box className={classes.orderDetailInner}>
-                  <Typography>قیمت محصولات:</Typography>
-                  <Box className={classes.orderPrice}>
-                    <Typography style={{ marginLeft: '.3rem' }}>
-                      {productPrice}
-                    </Typography>
-                    <Typography>تومان</Typography>
-                  </Box>
-                </Box>
-                <Box className={classes.orderDetailInner}>
-                  <Typography>هزینه ارسال:</Typography>
-                  <Box className={classes.orderPrice}>
-                    <Typography style={{ marginLeft: '.3rem' }}>
-                      {sendPrice}
-                    </Typography>
-                    <Typography>تومان</Typography>
-                  </Box>
-                </Box>
-                <Box className={classes.orderDetailInner}>
-                  <Typography>قیمت کل:</Typography>
-                  <Box className={classes.orderPrice}>
-                    <Typography style={{ marginLeft: '.3rem' }}>
-                      {state.totalPrice}
-                    </Typography>
-                    <Typography>تومان</Typography>
-                  </Box>
+      <Fragment>
+        <Grid direction='column' item xs={12} md={4}>
+          <Box className={classes.orderDetail}>
+            <Typography
+              style={{ margin: '.5rem 0', textAlign: 'center' }}
+              variant='h4'
+            >
+              اطلاعات پرداخت
+            </Typography>
+            <hr />
+            <Box style={{ padding: '1rem', direction: 'rtl' }}>
+              <Box className={classes.orderDetailInner}>
+                <Typography>قیمت محصولات:</Typography>
+                <Box className={classes.orderPrice}>
+                  <Typography style={{ marginLeft: '.3rem' }}>
+                    {productPrice}
+                  </Typography>
+                  <Typography>تومان</Typography>
                 </Box>
               </Box>
-              <hr />
-              <Box style={{ width: '100%', textAlign: 'center' }}>
-                <Button
-                  onClick={createOrder}
-                  className={classes.btn}
-                  variant='outlined'
-                >
-                  ثبت سفارش
-                </Button>
+              <Box className={classes.orderDetailInner}>
+                <Typography>هزینه ارسال:</Typography>
+                <Box className={classes.orderPrice}>
+                  <Typography style={{ marginLeft: '.3rem' }}>
+                    {sendPrice}
+                  </Typography>
+                  <Typography>تومان</Typography>
+                </Box>
+              </Box>
+              <Box className={classes.orderDetailInner}>
+                <Typography>قیمت کل:</Typography>
+                <Box className={classes.orderPrice}>
+                  <Typography style={{ marginLeft: '.3rem' }}>
+                    {state.totalPrice}
+                  </Typography>
+                  <Typography>تومان</Typography>
+                </Box>
               </Box>
             </Box>
-          </Grid>
-          <Grid
-            style={{ direction: 'rtl' }}
-            direction='column'
-            item
-            xs={12}
-            md={8}
-          >
-            <Typography variant='h4'>مشخصات</Typography>
-            <Box className={classes.Inner}>
-              <Typography variant='h6' style={{ marginLeft: '1rem' }}>
-                نام:
-              </Typography>
-              <Typography variant='h6'>{state.name}</Typography>
-            </Box>
-            <Box className={classes.Inner}>
-              <Typography variant='h6' style={{ marginLeft: '1rem' }}>
-                ایمیل:
-              </Typography>
-              <Typography variant='h6'>{state.email}</Typography>
-            </Box>
-            <Box className={classes.Inner}>
-              <Typography variant='h6' style={{ marginLeft: '1rem' }}>
-                تلفن:
-              </Typography>
-              <Typography variant='h6'>{state.phoneNumber}</Typography>
-            </Box>
-            <Box className={classes.Inner}>
-              <Typography
-                variant='h6'
-                style={{ marginLeft: '1rem', wordBreak: 'break-word' }}
+            <hr />
+            <Box style={{ width: '100%', textAlign: 'center' }}>
+              <Button
+                onClick={createOrder}
+                className={classes.btn}
+                variant='outlined'
               >
-                آدرس:
-              </Typography>
-              <Typography variant='h6'>{state.address}</Typography>
+                ثبت سفارش
+              </Button>
             </Box>
-            <Box className={classes.Inner}>
-              <Typography
-                variant='h6'
-                style={{ marginLeft: '1rem', wordBreak: 'break-word' }}
-              >
-                شهر:
-              </Typography>
-              <Typography variant='h6'>{state.city}</Typography>
-            </Box>
-            <Box className={classes.Inner}>
-              <Typography variant='h6' style={{ marginLeft: '1rem' }}>
-                کد پستی:
-              </Typography>
-              <Typography variant='h6'>{state.postalCode}</Typography>
-            </Box>
-            <hr style={{ margin: '2rem 0' }} />
-            <Box>
-              <Typography variant='h4'>محصولات</Typography>
-              {state.orderItems.map((item) => {
-                return (
-                  <Box className={classes.orderItems}>
-                    <img
-                      className={classes.img}
-                      src={item.productImage}
-                      alt='aks'
-                    />
-                    <Box>
-                      <Typography
-                        variant='h5'
-                        style={{ marginBottom: '.6rem' }}
-                      >
-                        {item.productName}
-                      </Typography>
+          </Box>
+        </Grid>
+        <Grid
+          style={{ direction: 'rtl' }}
+          direction='column'
+          item
+          xs={12}
+          md={8}
+        >
+          <Typography variant='h4'>مشخصات</Typography>
+          <Box className={classes.Inner}>
+            <Typography variant='h6' style={{ marginLeft: '1rem' }}>
+              نام:
+            </Typography>
+            <Typography variant='h6'>{state.name}</Typography>
+          </Box>
+          <Box className={classes.Inner}>
+            <Typography variant='h6' style={{ marginLeft: '1rem' }}>
+              ایمیل:
+            </Typography>
+            <Typography variant='h6'>{state.email}</Typography>
+          </Box>
+          <Box className={classes.Inner}>
+            <Typography variant='h6' style={{ marginLeft: '1rem' }}>
+              تلفن:
+            </Typography>
+            <Typography variant='h6'>{state.phoneNumber}</Typography>
+          </Box>
+          <Box className={classes.Inner}>
+            <Typography
+              variant='h6'
+              style={{ marginLeft: '1rem', wordBreak: 'break-word' }}
+            >
+              آدرس:
+            </Typography>
+            <Typography variant='h6'>{state.address}</Typography>
+          </Box>
+          <Box className={classes.Inner}>
+            <Typography
+              variant='h6'
+              style={{ marginLeft: '1rem', wordBreak: 'break-word' }}
+            >
+              شهر:
+            </Typography>
+            <Typography variant='h6'>{state.city}</Typography>
+          </Box>
+          <Box className={classes.Inner}>
+            <Typography variant='h6' style={{ marginLeft: '1rem' }}>
+              کد پستی:
+            </Typography>
+            <Typography variant='h6'>{state.postalCode}</Typography>
+          </Box>
+          <hr style={{ margin: '2rem 0' }} />
+          <Box>
+            <Typography variant='h4'>محصولات</Typography>
+            {state.orderItems.map((item) => {
+              return (
+                <Box className={classes.orderItems}>
+                  <img
+                    className={classes.img}
+                    src={item.productImage}
+                    alt='aks'
+                  />
+                  <Box>
+                    <Typography variant='h5' style={{ marginBottom: '.6rem' }}>
+                      {item.productName}
+                    </Typography>
+                    <Box className={classes.product}>
+                      <Typography variant='h6'>{`${item.productCount}x${item.productPrice}:`}</Typography>
                       <Box className={classes.product}>
-                        <Typography variant='h6'>{`${item.productCount}x${item.productPrice}:`}</Typography>
-                        <Box className={classes.product}>
-                          <Typography
-                            variant='h6'
-                            style={{
-                              marginRight: '.5rem',
-                              marginLeft: '.3rem',
-                            }}
-                          >
-                            {item.productCount * item.productPrice}
-                          </Typography>
-                          <Typography variant='h5'>تومان</Typography>
-                        </Box>
+                        <Typography
+                          variant='h6'
+                          style={{
+                            marginRight: '.5rem',
+                            marginLeft: '.3rem',
+                          }}
+                        >
+                          {item.productCount * item.productPrice}
+                        </Typography>
+                        <Typography variant='h5'>تومان</Typography>
                       </Box>
                     </Box>
                   </Box>
-                );
-              })}
-            </Box>
-          </Grid>
-        </Fragment>
-      )}
+                </Box>
+              );
+            })}
+          </Box>
+        </Grid>
+      </Fragment>
     </Grid>
   );
 };

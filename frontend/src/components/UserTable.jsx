@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import MyTable from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -9,6 +9,9 @@ import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import OrderContext from '../context/orders/OrderContext';
 import Loader from '../components/Loader/Loader';
+import { Pagination } from '@material-ui/lab';
+import { Box } from '@material-ui/core';
+import { useParams } from 'react-router-dom';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -44,9 +47,16 @@ const useStyles = makeStyles({
   },
 });
 
-const UserTable = ({ orders }) => {
+const UserTable = () => {
   const classes = useStyles();
+  const [page, setPage] = useState(1);
+  const params = useParams();
   const orderContext = useContext(OrderContext);
+
+  useEffect(() => {
+    orderContext.getUserOrders(params.id, 10, page);
+    //eslint-disable-next-line
+  }, [params.id, orderContext.loading]);
   return (
     <TableContainer>
       <MyTable className={classes.table} aria-label='customized table'>
@@ -62,7 +72,8 @@ const UserTable = ({ orders }) => {
           {orderContext.loading ? (
             <Loader />
           ) : (
-            orders.map((row) => (
+            orderContext.orders.results &&
+            orderContext.orders.results.map((row) => (
               <StyledTableRow key={row._id}>
                 <StyledTableCell align='right'>{row._id}</StyledTableCell>
                 <StyledTableCell align='right'>{row.payDate}</StyledTableCell>
@@ -77,6 +88,29 @@ const UserTable = ({ orders }) => {
           )}
         </TableBody>
       </MyTable>
+      {orderContext.orders.pages > 1 && (
+        <Box
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            width: '100%',
+            margin: '2rem 0',
+          }}
+        >
+          <Pagination
+            color='primary'
+            size='large'
+            variant='outlined'
+            count={orderContext.orders.pages}
+            page={page}
+            onChange={(e, value) => {
+              orderContext.setLoading();
+              setPage(value);
+              orderContext.getUserOrders(params.id, 10, value);
+            }}
+          />
+        </Box>
+      )}
     </TableContainer>
   );
 };

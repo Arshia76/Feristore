@@ -7,7 +7,10 @@ const OrderReducer = (state, action) => {
         ...state,
         error: null,
         loading: false,
-        orders: action.payload,
+        orders: {
+          results: action.payload.results,
+          pages: action.payload.pages,
+        },
       };
 
     case types.GET_ORDERS_FAIL:
@@ -37,7 +40,10 @@ const OrderReducer = (state, action) => {
         ...state,
         loading: false,
         error: null,
-        orders: [...state.orders, action.payload],
+        orders: {
+          results: [...state.orders.results, action.payload],
+          pages: Math.ceil(state.orders.results.length / 10),
+        },
         order: action.payload,
       };
 
@@ -68,7 +74,12 @@ const OrderReducer = (state, action) => {
         ...state,
         loading: false,
         error: null,
-        orders: [...state.orders, action.payload],
+        orders: {
+          results: state.orders.results.map((o) =>
+            o._id === action.payload._id ? action.payload : o
+          ),
+          pages: Math.ceil(state.orders.results.length / 10),
+        },
         order: action.payload,
       };
 
@@ -84,7 +95,13 @@ const OrderReducer = (state, action) => {
         ...state,
         loading: false,
         error: null,
-        orders: [...state.orders, action.payload],
+        orders: {
+          results: state.orders.results.map((o) =>
+            o._id === action.payload._id ? action.payload : o
+          ),
+          pages: Math.ceil(state.orders.results.length / 10),
+        },
+
         order: action.payload,
       };
 
@@ -106,7 +123,10 @@ const OrderReducer = (state, action) => {
         ...state,
         error: null,
         loading: false,
-        orders: action.payload,
+        orders: {
+          results: action.payload.results,
+          pages: action.payload.pages,
+        },
       };
     case types.GET_USER_ORDERS_FAIL:
       return {
