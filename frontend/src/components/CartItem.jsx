@@ -88,7 +88,7 @@ const CartItem = ({
       <Box className={classes.root}>
         <img
           className={classes.img}
-          src={`http://localhost:5000/${image}`}
+          src={`https://feristore.herokuapp.com/${image}`}
           alt='aks'
         />
         <Typography>{name}</Typography>

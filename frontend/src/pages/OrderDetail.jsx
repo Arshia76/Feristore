@@ -279,7 +279,7 @@ const OrderDetail = ({ match, history, location }) => {
                     <Box className={classes.orderItems}>
                       <img
                         className={classes.img}
-                        src={`http://localhost:5000/${item.productImage}`}
+                        src={`https://feristore.herokuapp.com/${item.productImage}`}
                         alt='aks'
                       />
                       <Box>
