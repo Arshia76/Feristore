@@ -259,7 +259,7 @@ const NavBar = ({ handleOpen }) => {
           </IconButton>
           <Link to='/' style={{ color: 'white', textDecoration: 'none' }}>
             <Typography className={classes.title} variant='h6' noWrap>
-              FeriShop
+              FeriStore
             </Typography>
           </Link>
           <div className={classes.search}>
