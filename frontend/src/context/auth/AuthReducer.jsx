@@ -62,6 +62,7 @@ const AuthReducer = (state, action) => {
         error: action.payload,
         loading: false,
         user: null,
+        isAdmin: false,
       };
     case types.LOAD_USER:
       return {

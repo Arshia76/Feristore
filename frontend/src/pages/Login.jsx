@@ -122,9 +122,9 @@ const Login = ({ history }) => {
             ورود
           </Button>
 
-          <Typography className={classes.typog}>
+          {/* <Typography className={classes.typog}>
             رمز خود را فراموش کرده ام؟
-          </Typography>
+          </Typography> */}
         </FormControl>
       </Box>
     </Container>
