@@ -5,19 +5,17 @@ import { makeStyles } from '@material-ui/core/styles';
 import CartContext from '../context/cart/CartContext';
 
 const useStyles = makeStyles({
-  root: { padding: '2rem', display: 'grid', marginTop: '4rem' },
+  root: { padding: '1rem', display: 'grid', marginTop: '4rem' },
   firstBox: {
     display: 'flex',
     flexDirection: 'column',
     marginTop: '1rem',
-    alignItems: 'fles-start',
     padding: '1.5rem',
     boxShadow: '1rem 1rem 1rem #c0afdb',
     height: 'max-content',
     direction: 'rtl',
     position: 'sticky',
     top: '0',
-    marginLeft: '3rem',
   },
 
   innerBox: {
@@ -57,17 +55,9 @@ const Cart = ({ history }) => {
   const cartContext = useContext(CartContext);
 
   return (
-    <Container className={classes.root} maxWidth='lg'>
+    <Container className={classes.root}>
       <Grid spacing={2} container>
-        <Grid
-          justify='flex-end'
-          item
-          container
-          className={classes.secondBox}
-          xs={12}
-          sm={9}
-          md={8}
-        >
+        <Grid item className={classes.secondBox} xs={12} sm={9} md={8}>
           {cartContext.cart.map((cart) => {
             return (
               <CartItem
@@ -85,15 +75,7 @@ const Cart = ({ history }) => {
             );
           })}
         </Grid>
-        <Grid
-          container
-          justify='center'
-          item
-          xs={12}
-          sm={3}
-          md={3}
-          className={classes.firstBox}
-        >
+        <Grid item xs={12} sm={3} md={3} className={classes.firstBox}>
           <Box className={classes.innerBox}>
             <Typography>تعداد محصولات :</Typography>
             <Typography>

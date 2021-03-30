@@ -28,7 +28,7 @@ const Slider = () => {
         productContext.newProducts.length > 0 && (
           <Box style={{ padding: '1rem 0' }}>
             <Fragment>
-              <Typography className={classes.text} variant='h3'>
+              <Typography className={classes.text} variant='h4'>
                 محصولات جدید
               </Typography>
               <Carousel

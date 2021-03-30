@@ -13,26 +13,34 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import CartContext from '../context/cart/CartContext';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-around',
     direction: 'rtl',
     width: '100%',
+    padding: '1rem',
+    [theme.breakpoints.down('sm')]: {
+      padding: 0,
+    },
   },
 
   img: {
-    width: '18vh',
-    height: '18vh',
+    width: '5rem',
+    height: '5rem',
     marginTop: '1rem',
+    [theme.breakpoints.down('sm')]: {
+      width: '3rem',
+      height: '3rem',
+    },
   },
 
   innerBox: {
     display: 'flex',
     alignItems: 'center',
   },
-});
+}));
 
 const BootstrapInput = withStyles((theme) => ({
   root: {
@@ -96,7 +104,7 @@ const CartItem = ({
           <Typography style={{ marginLeft: '.3rem' }}>{price}</Typography>
           <Typography>تومان</Typography>
         </Box>
-        <FormControl style={{ margin: '1rem' }}>
+        <FormControl style={{ margin: '.5rem' }}>
           <InputLabel id='demo-customized-select-label'>تعداد</InputLabel>
           <Select
             labelId='demo-customized-select-label'

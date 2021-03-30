@@ -21,6 +21,7 @@ const useStyles = makeStyles({
     display: 'grid',
     placeItems: 'center',
     height: '100%',
+
     padding: '1rem',
     background: 'linear-gradient(to right, #748cb3, #635173, #9b5bd4)',
   },
@@ -172,7 +173,6 @@ const OrderInformation = () => {
                   style: {
                     textAlign: 'right',
                     height: '5rem',
-                    width: '22.8rem',
                   },
                 }}
                 variant='outlined'

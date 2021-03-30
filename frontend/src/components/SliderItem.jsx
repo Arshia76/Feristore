@@ -2,7 +2,7 @@ import React from 'react';
 import { Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   image: {
     width: '100%',
     height: '100%',
@@ -18,11 +18,14 @@ const useStyles = makeStyles({
     textShadow: '1rem 1rem 1rem black',
   },
   paper: {
-    height: '65vh',
+    height: '25rem',
     position: 'relative',
     cursor: 'pointer',
+    [theme.breakpoints.down('sm')]: {
+      height: '15rem',
+    },
   },
-});
+}));
 
 const SliderItem = ({ image, name, id }) => {
   const classes = useStyles();
@@ -33,7 +36,7 @@ const SliderItem = ({ image, name, id }) => {
       onClick={() => history.push(`/detail/${id}`)}
     >
       <img className={classes.image} src={image} alt='carousel-aks' />
-      <Typography className={classes.text} variant='h3'>
+      <Typography className={classes.text} variant='h4'>
         {name}
       </Typography>
     </Paper>

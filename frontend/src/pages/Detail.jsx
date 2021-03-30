@@ -81,7 +81,8 @@ const useStyles = makeStyles((theme) => ({
     width: '40%',
     height: '25rem',
     [theme.breakpoints.down('sm')]: {
-      width: '80%',
+      width: '70%',
+      height: '15rem',
     },
   },
 
@@ -155,14 +156,14 @@ const useStyles = makeStyles((theme) => ({
     overflowY: 'auto',
     scrollbarColor: '#a4b0bd #d5d9df',
     [theme.breakpoints.down('sm')]: {
-      width: '80%',
+      width: '100%',
     },
   },
   hrStyle: {
     width: '50%',
     textAlign: 'right',
     [theme.breakpoints.down('sm')]: {
-      width: '80%',
+      width: '100%',
     },
   },
 }));
@@ -303,7 +304,7 @@ const Detail = ({ match }) => {
       </Container>
       <Container className={classes.commentRoot}>
         <Box className={classes.comments}>
-          <Typography variant='h2'>نظرات</Typography>
+          <Typography variant='h4'>نظرات</Typography>
         </Box>
         <Box className={classes.hrStyle}>
           <hr />

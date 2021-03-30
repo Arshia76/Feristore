@@ -262,10 +262,10 @@ const Payment = ({ history }) => {
                       {item.productName}
                     </Typography>
                     <Box className={classes.product}>
-                      <Typography variant='h6'>{`${item.productCount}x${item.productPrice}:`}</Typography>
+                      <Typography variant='body1'>{`${item.productCount}x${item.productPrice}:`}</Typography>
                       <Box className={classes.product}>
                         <Typography
-                          variant='h6'
+                          variant='body1'
                           style={{
                             marginRight: '.5rem',
                             marginLeft: '.3rem',
@@ -273,7 +273,7 @@ const Payment = ({ history }) => {
                         >
                           {item.productCount * item.productPrice}
                         </Typography>
-                        <Typography variant='h5'>تومان</Typography>
+                        <Typography variant='body1'>تومان</Typography>
                       </Box>
                     </Box>
                   </Box>

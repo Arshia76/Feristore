@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     width: '75%',
     wordBreak: 'break-all',
     [theme.breakpoints.down('sm')]: {
-      width: '60%',
+      width: '50%',
     },
   },
 }));

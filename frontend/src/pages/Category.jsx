@@ -9,7 +9,7 @@ import Loader from '../components/Loader/Loader';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: '2rem 5rem',
+    padding: '2rem 1rem',
     marginTop: '3rem',
   },
   text: {
@@ -40,7 +40,7 @@ const Category = ({ match }) => {
         <Loader />
       ) : (
         <Box className={classes.root}>
-          <Typography className={classes.text} variant='h3'>
+          <Typography className={classes.text} variant='h4'>
             {match.params.category}
           </Typography>
           <Grid direction='row-reverse' container spacing={3}>

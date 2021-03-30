@@ -17,7 +17,7 @@ import ProductContext from '../context/products/ProductContext';
 import CartContext from '../context/cart/CartContext';
 import { useHistory } from 'react-router-dom';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     margin: '1rem 0',
   },
@@ -26,6 +26,9 @@ const useStyles = makeStyles({
   },
   image: {
     height: '18rem',
+    [theme.breakpoints.down('sm')]: {
+      height: '10rem',
+    },
   },
 
   button: {
@@ -58,7 +61,7 @@ const useStyles = makeStyles({
     alignItems: 'center',
     marginTop: '.5rem',
   },
-});
+}));
 
 const CategoryItem = ({ product }) => {
   const classes = useStyles();
@@ -66,7 +69,7 @@ const CategoryItem = ({ product }) => {
   const cartContext = useContext(CartContext);
   const history = useHistory();
   return (
-    <Grid className={classes.root} item xs={12} sm={2} md={3} lg={4}>
+    <Grid className={classes.root} item xs={12} sm={6} md={4}>
       <Card className={classes.card}>
         <CardActionArea>
           <CardMedia

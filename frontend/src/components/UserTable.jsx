@@ -17,9 +17,15 @@ const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 12,
+    },
   },
   body: {
     fontSize: 14,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 12,
+    },
   },
 }))(TableCell);
 
@@ -31,11 +37,14 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   table: {
     margin: '6rem auto ',
     width: '75%',
     direction: 'rtl',
+    [theme.breakpoints.down('sm')]: {
+      width: '90%',
+    },
   },
   link: {
     display: 'inline-block',
@@ -45,7 +54,7 @@ const useStyles = makeStyles({
     backgroundColor: 'black',
     cursor: 'pointer',
   },
-});
+}));
 
 const UserTable = () => {
   const classes = useStyles();

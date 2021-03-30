@@ -24,10 +24,14 @@ const useStyles = makeStyles((theme) => ({
   card: {
     direction: 'rtl',
     height: '100%',
+    boxShadow: '.1rem .1rem .1rem rgba(0,0,0,.5)',
   },
   image: {
     width: '100%',
     height: '20rem',
+    [theme.breakpoints.down('sm')]: {
+      height: '10rem',
+    },
   },
 
   CardContent: {
@@ -63,7 +67,7 @@ const DiscountSlider = () => {
             style={{ padding: '1rem 0', margin: '2rem 0', textAlign: 'center' }}
           >
             <Fragment>
-              <Typography className={classes.text} variant='h3'>
+              <Typography className={classes.text} variant='h4'>
                 محصولات دارای تخفیف
               </Typography>
               <OwlCarousel
@@ -71,10 +75,10 @@ const DiscountSlider = () => {
                 dots={true}
                 nav={true}
                 responsive={{
-                  500: {
+                  0: {
                     items: 1,
                   },
-                  600: {
+                  700: {
                     items: 2,
                   },
                   1024: {

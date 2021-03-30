@@ -31,7 +31,7 @@ const PopularProducts = () => {
         productContext.specialProducts.results.length > 0 && (
           <Box className={classes.root}>
             <Fragment>
-              <Typography className={classes.text} variant='h3'>
+              <Typography className={classes.text} variant='h4'>
                 محصولات ویژه
               </Typography>
               <Grid direction='row-reverse' container spacing={3}>

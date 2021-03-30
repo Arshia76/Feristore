@@ -16,7 +16,7 @@ import ReactStars from 'react-stars';
 import ProductContext from '../context/products/ProductContext';
 import CartContext from '../context/cart/CartContext';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     margin: '1rem 0',
   },
@@ -27,6 +27,9 @@ const useStyles = makeStyles({
   image: {
     width: '100%',
     height: '20rem',
+    [theme.breakpoints.down('sm')]: {
+      height: '10rem',
+    },
   },
 
   button: {
@@ -59,7 +62,7 @@ const useStyles = makeStyles({
     alignItems: 'center',
     marginTop: '.5rem',
   },
-});
+}));
 
 const PopularProductItem = ({ product }) => {
   const classes = useStyles();
