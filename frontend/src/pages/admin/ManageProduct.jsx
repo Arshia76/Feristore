@@ -181,7 +181,7 @@ const ManageProduct = ({ history, location }) => {
           />
           <TextField
             name='price'
-            type='text'
+            type='number'
             value={state.price}
             className={classes.textfield}
             label='قیمت'
@@ -268,7 +268,7 @@ const ManageProduct = ({ history, location }) => {
               name='countInStock'
               className={classes.textField}
               value={state.countInStock}
-              type='text'
+              type='number'
               label='تعداد محصول'
               inputProps={{ style: { textAlign: 'right' } }}
               variant='outlined'
@@ -278,7 +278,7 @@ const ManageProduct = ({ history, location }) => {
               name='discount'
               className={classes.textField}
               value={state.discount}
-              type='text'
+              type='number'
               label='درصد تخفیف محصول'
               inputProps={{ style: { textAlign: 'right' } }}
               variant='outlined'

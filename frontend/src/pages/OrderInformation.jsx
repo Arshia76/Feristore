@@ -147,7 +147,7 @@ const OrderInformation = () => {
               />
               <TextField
                 name='phoneNumber'
-                type='text'
+                type='number'
                 value={state.phoneNumber}
                 label='شماره همراه'
                 inputProps={{ style: { textAlign: 'right' } }}
@@ -177,7 +177,7 @@ const OrderInformation = () => {
               <TextField
                 name='postalCode'
                 style={{ textAlign: 'right' }}
-                type='text'
+                type='number'
                 label='کد پستی'
                 value={state.postalCode}
                 inputProps={{ style: { textAlign: 'right' } }}
