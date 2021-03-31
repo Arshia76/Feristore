@@ -169,12 +169,8 @@ const OrderInformation = () => {
                 value={state.address}
                 label='آدرس'
                 multiline
-                inputProps={{
-                  style: {
-                    textAlign: 'right',
-                    height: '5rem',
-                  },
-                }}
+                style={{ width: '100%' }}
+                inputProps={{ style: { textAlign: 'right', height: '5rem' } }}
                 variant='outlined'
                 onChange={onChange}
               />
