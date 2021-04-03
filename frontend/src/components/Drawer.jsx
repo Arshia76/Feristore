@@ -10,6 +10,9 @@ import ClearIcon from '@material-ui/icons/Clear';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import CategoryContext from '../context/category/CategoryContext';
+import ProductContext from '../context/products/ProductContext';
+import OrderContext from '../context/orders/OrderContext';
+import UserContext from '../context/users/UserContext';
 import AuthContext from '../context/auth/AuthContext';
 
 const useStyles = makeStyles((theme) => ({
@@ -60,6 +63,9 @@ const useStyles = makeStyles((theme) => ({
 const Drawer = ({ open, handleClose }) => {
   const classes = useStyles();
   const categoryContext = useContext(CategoryContext);
+  const productContext = useContext(ProductContext);
+  const userContext = useContext(UserContext);
+  const orderContext = useContext(OrderContext);
   const authContext = useContext(AuthContext);
 
   useEffect(() => {
@@ -86,7 +92,11 @@ const Drawer = ({ open, handleClose }) => {
           categoryContext.category.results &&
           categoryContext.category.results.map((category) => {
             return (
-              <Link to={`/categories/${category.category}`} key={category._id}>
+              <Link
+                to={`/categories/${category.category}`}
+                key={category._id}
+                onClick={() => productContext.setLoading()}
+              >
                 <ListItemText className={classes.listItem}>
                   {category.category}
                 </ListItemText>
@@ -95,16 +105,28 @@ const Drawer = ({ open, handleClose }) => {
           })}
         {authContext.isAdmin && (
           <Fragment>
-            <Link to='/admin/customers'>
+            <Link
+              to='/admin/customers'
+              onClick={() => userContext.setLoading()}
+            >
               <ListItemText className={classes.listItem}>مشتری ها</ListItemText>
             </Link>
-            <Link to='/admin/products'>
+            <Link
+              to='/admin/products'
+              onClick={() => productContext.setLoading()}
+            >
               <ListItemText className={classes.listItem}>محصولات</ListItemText>
             </Link>
-            <Link to='/admin/userorders'>
+            <Link
+              to='/admin/userorders'
+              onClick={() => orderContext.setLoading()}
+            >
               <ListItemText className={classes.listItem}>سفارش ها</ListItemText>
             </Link>
-            <Link to='/admin/categories'>
+            <Link
+              to='/admin/categories'
+              onClick={() => categoryContext.setLoading()}
+            >
               <ListItemText className={classes.listItem}>
                 دسته بندی
               </ListItemText>
