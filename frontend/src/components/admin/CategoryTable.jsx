@@ -137,6 +137,7 @@ const CategoryTable = () => {
               categoryContext.setLoading();
               setPage(value);
               categoryContext.getCategories(10, value);
+              window.scrollTo(0, 0);
             }}
           />
         </Box>

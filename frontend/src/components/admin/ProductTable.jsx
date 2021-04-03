@@ -168,6 +168,7 @@ const ProductTable = () => {
               productContext.setLoading();
               setPage(value);
               productContext.getAllProducts(1, value);
+              window.scrollTo(0, 0);
             }}
           />
         </Box>

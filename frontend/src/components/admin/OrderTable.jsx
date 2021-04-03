@@ -113,6 +113,7 @@ const OrderTable = () => {
                         orderContext.setLoading();
                         orderContext.updateSentDate(row._id);
                         orderContext.getAllOrders(10, page);
+                        window.scrollTo(0, 0);
                       }}
                     >
                       ارسال

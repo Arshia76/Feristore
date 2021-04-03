@@ -73,16 +73,15 @@ const ProductSchema = new mongoose.Schema({
     default: false,
   },
 
-  discount:{
-    type:Number,
-    default:0
+  discount: {
+    type: Number,
+    default: 0,
   },
 
-  isDiscount:{
-    type:Boolean,
-    default:false
-  }
-
+  isDiscount: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 module.exports =

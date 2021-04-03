@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import UserOrders from './pages/UserOrders';
@@ -35,6 +35,14 @@ import AdminCategory from './pages/admin/AdminCategory';
 import PrivateRoute from './utils/PrivateRoute';
 import AdminRoute from './utils/AdminRoute';
 import OrderDetail from './pages/OrderDetail';
+import createHistory from 'history/createBrowserHistory';
+import NotFound from './pages/NotFound';
+export const history = createHistory();
+
+history.listen((location, action) => {
+  window.scrollTo(0, 0);
+});
+
 const theme = createMuiTheme({
   typography: {
     fontFamily: 'Amiri, Arial',
@@ -70,7 +78,7 @@ function App() {
                   <ThemeProvider theme={theme}>
                     <main className='App'>
                       <CssBaseline />
-                      <Router>
+                      <Router history={history}>
                         <NavBar handleOpen={handleOpen} />
                         <Drawer open={open} handleClose={handleClose} />
                         <Switch>
@@ -145,6 +153,7 @@ function App() {
                             path='/admin/categories'
                             component={AdminCategory}
                           />
+                          <Route component={NotFound} />
                         </Switch>
                       </Router>
                       <ToastContainer

@@ -116,6 +116,7 @@ const UserTable = () => {
               orderContext.setLoading();
               setPage(value);
               orderContext.getUserOrders(params.id, 10, value);
+              window.scrollTo(0, 0);
             }}
           />
         </Box>

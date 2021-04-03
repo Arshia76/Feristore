@@ -61,6 +61,7 @@ const PopularProducts = () => {
                       productContext.setLoading();
                       setPage(value);
                       productContext.getSpecialProducts(6, value);
+                      window.scrollTo(0, 0);
                     }}
                   />
                 </Box>

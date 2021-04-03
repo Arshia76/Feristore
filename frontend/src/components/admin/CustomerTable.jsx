@@ -105,6 +105,7 @@ const CustomerTable = () => {
               userContext.setLoading();
               setPage(value);
               userContext.getUsers(10, value);
+              window.scrollTo(0, 0);
             }}
           />
         </Box>
