@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, Fragment } from 'react';
 import {
   Container,
   TextField,
@@ -11,6 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import AuthContext from '../context/auth/AuthContext';
 import UserContext from '../context/users/UserContext';
 import { toast } from 'react-toastify';
+import Loader from '../components/Loader/Loader';
 
 const useStyles = makeStyles({
   root: {
@@ -85,6 +86,7 @@ const Login = ({ history }) => {
 
   const submit = (e) => {
     e.preventDefault();
+    authContext.setLoading();
     authContext.login(JSON.stringify(state));
   };
 
@@ -95,39 +97,46 @@ const Login = ({ history }) => {
     });
   };
   return (
-    <Container className={classes.root} maxWidth='xl'>
-      <Box className={classes.box}>
-        <Typography className={classes.text} variant='h4'>
-          ورود
-        </Typography>
-        <FormControl className={classes.form}>
-          <TextField
-            name='email'
-            type='email'
-            label='ایمیل'
-            inputProps={{ style: { textAlign: 'right' } }}
-            variant='outlined'
-            onChange={onChange}
-          />
-          <TextField
-            name='password'
-            style={{ textAlign: 'right' }}
-            type='password'
-            label='رمز عبور'
-            inputProps={{ style: { textAlign: 'right' } }}
-            variant='outlined'
-            onChange={onChange}
-          />
-          <Button type='submit' onClick={submit} className={classes.button}>
-            ورود
-          </Button>
+    <Fragment>
+      {authContext.loading ? (
+        <Loader />
+      ) : (
+        <Container className={classes.root} maxWidth='xl'>
+          <Box className={classes.box}>
+            <Typography className={classes.text} variant='h4'>
+              ورود
+            </Typography>
+            <FormControl className={classes.form}>
+              <TextField
+                name='email'
+                type='email'
+                label='ایمیل'
+                inputProps={{ style: { textAlign: 'right' } }}
+                variant='outlined'
+                onChange={onChange}
+              />
+              <TextField
+                name='password'
+                style={{ textAlign: 'right' }}
+                type='password'
+                label='رمز عبور'
+                inputProps={{ style: { textAlign: 'right' } }}
+                variant='outlined'
+                onChange={onChange}
+              />
 
-          {/* <Typography className={classes.typog}>
+              <Button type='submit' onClick={submit} className={classes.button}>
+                ورود
+              </Button>
+
+              {/* <Typography className={classes.typog}>
             رمز خود را فراموش کرده ام؟
           </Typography> */}
-        </FormControl>
-      </Box>
-    </Container>
+            </FormControl>
+          </Box>
+        </Container>
+      )}
+    </Fragment>
   );
 };
 

@@ -83,6 +83,12 @@ const AuthReducer = (state, action) => {
       };
     }
 
+    case types.AUTH_LOADING:
+      return {
+        ...state,
+        loading: true,
+      };
+
     default:
       return state;
   }

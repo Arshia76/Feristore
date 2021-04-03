@@ -9,7 +9,7 @@ const AuthState = (props) => {
     token: null,
     isAuthenticated: false,
     error: null,
-    loading: true,
+    loading: false,
     user: null,
     id: null,
     isAdmin: false,
@@ -75,6 +75,12 @@ const AuthState = (props) => {
     });
   };
 
+  const setLoading = () => {
+    dispatch({
+      type: types.AUTH_LOADING,
+    });
+  };
+
   const clearErrors = () => {
     dispatch({
       type: types.CLEAR_ERRORS,
@@ -96,6 +102,7 @@ const AuthState = (props) => {
         logout,
         loadUser,
         clearErrors,
+        setLoading,
       }}
     >
       {props.children}

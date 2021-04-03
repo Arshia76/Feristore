@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, Fragment } from 'react';
+import Loader from '../components/Loader/Loader';
 import {
   Container,
   TextField,
@@ -78,6 +79,7 @@ const Register = ({ history }) => {
 
   const submit = (e) => {
     e.preventDefault();
+    authContext.setLoading();
     authContext.register(JSON.stringify(state));
   };
 
@@ -89,43 +91,50 @@ const Register = ({ history }) => {
   };
 
   return (
-    <Container className={classes.root} maxWidth='xl'>
-      <Box className={classes.box}>
-        <Typography className={classes.text} variant='h4'>
-          ثبت نام
-        </Typography>
-        <FormControl className={classes.form}>
-          <TextField
-            name='username'
-            type='text'
-            label='نام کاربری'
-            inputProps={{ style: { textAlign: 'right' } }}
-            variant='outlined'
-            onChange={onChange}
-          />
-          <TextField
-            name='email'
-            type='email'
-            label='ایمیل'
-            inputProps={{ style: { textAlign: 'right' } }}
-            variant='outlined'
-            onChange={onChange}
-          />
-          <TextField
-            name='password'
-            style={{ textAlign: 'right' }}
-            type='password'
-            label='رمز عبور'
-            inputProps={{ style: { textAlign: 'right' } }}
-            variant='outlined'
-            onChange={onChange}
-          />
-          <Button type='submit' onClick={submit} className={classes.button}>
-            ثبت نام
-          </Button>
-        </FormControl>
-      </Box>
-    </Container>
+    <Fragment>
+      {authContext.loading ? (
+        <Loader />
+      ) : (
+        <Container className={classes.root} maxWidth='xl'>
+          <Box className={classes.box}>
+            <Typography className={classes.text} variant='h4'>
+              ثبت نام
+            </Typography>
+            <FormControl className={classes.form}>
+              <TextField
+                name='username'
+                type='text'
+                label='نام کاربری'
+                inputProps={{ style: { textAlign: 'right' } }}
+                variant='outlined'
+                onChange={onChange}
+              />
+              <TextField
+                name='email'
+                type='email'
+                label='ایمیل'
+                inputProps={{ style: { textAlign: 'right' } }}
+                variant='outlined'
+                onChange={onChange}
+              />
+              <TextField
+                name='password'
+                style={{ textAlign: 'right' }}
+                type='password'
+                label='رمز عبور'
+                inputProps={{ style: { textAlign: 'right' } }}
+                variant='outlined'
+                onChange={onChange}
+              />
+
+              <Button type='submit' onClick={submit} className={classes.button}>
+                ثبت نام
+              </Button>
+            </FormControl>
+          </Box>
+        </Container>
+      )}
+    </Fragment>
   );
 };
 
