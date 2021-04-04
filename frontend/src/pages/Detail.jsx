@@ -208,11 +208,15 @@ const Detail = ({ match }) => {
   return (
     <Fragment>
       <Container className={classes.root}>
-        <img
-          className={classes.img}
-          src={`https://feristore.herokuapp.com/${productContext.product.image}`}
-          alt='aks'
-        />
+        {productContext.loading ? (
+          <Loader />
+        ) : (
+          <img
+            className={classes.img}
+            src={`https://feristore.herokuapp.com/${productContext.product.image}`}
+            alt='aks'
+          />
+        )}
         <Box className={classes.middle}>
           <Typography gutterBottom variant='h4'>
             {productContext.product.name}

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
+import ProductContext from '../context/products/ProductContext';
 const useStyles = makeStyles((theme) => ({
   image: {
     width: '100%',
@@ -30,10 +31,14 @@ const useStyles = makeStyles((theme) => ({
 const SliderItem = ({ image, name, id }) => {
   const classes = useStyles();
   const history = useHistory();
+  const productContext = useContext(ProductContext);
   return (
     <Paper
       className={classes.paper}
-      onClick={() => history.push(`/detail/${id}`)}
+      onClick={() => {
+        productContext.setLoading();
+        history.push(`/detail/${id}`);
+      }}
     >
       <img className={classes.image} src={image} alt='carousel-aks' />
       <Typography className={classes.text} variant='h4'>

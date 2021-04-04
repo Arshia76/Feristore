@@ -3,6 +3,7 @@ import CartItem from '../components/CartItem';
 import { Container, Box, Typography, Grid, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import CartContext from '../context/cart/CartContext';
+import AuthContext from '../context/auth/AuthContext';
 
 const useStyles = makeStyles({
   root: { padding: '1rem', display: 'grid', marginTop: '4rem' },
@@ -53,27 +54,41 @@ const useStyles = makeStyles({
 const Cart = ({ history }) => {
   const classes = useStyles();
   const cartContext = useContext(CartContext);
+  const authContext = useContext(AuthContext);
 
   return (
     <Container className={classes.root}>
       <Grid spacing={2} container>
         <Grid item className={classes.secondBox} xs={12} sm={9} md={8}>
-          {cartContext.cart.map((cart) => {
-            return (
-              <CartItem
-                key={cart._id}
-                name={cart.name}
-                image={cart.image}
-                price={cart.price}
-                _id={cart._id}
-                count={cart.count}
-                description={cart.description}
-                category={cart.category}
-                reviews={cart.reviews}
-                countInStock={cart.countInStock}
-              />
-            );
-          })}
+          {cartContext.cart.length === 0 ? (
+            <Box
+              style={{
+                marginTop: '3rem',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <Typography variant='h4'>سبد شما خالی است</Typography>
+            </Box>
+          ) : (
+            cartContext.cart.map((cart) => {
+              return (
+                <CartItem
+                  key={cart._id}
+                  name={cart.name}
+                  image={cart.image}
+                  price={cart.price}
+                  _id={cart._id}
+                  count={cart.count}
+                  description={cart.description}
+                  category={cart.category}
+                  reviews={cart.reviews}
+                  countInStock={cart.countInStock}
+                />
+              );
+            })
+          )}
         </Grid>
         <Grid item xs={12} sm={3} md={3} className={classes.firstBox}>
           <Box className={classes.innerBox}>
@@ -98,7 +113,10 @@ const Cart = ({ history }) => {
           <Button
             disabled={cartContext.cart.length === 0}
             className={classes.button}
-            onClick={() => history.push('/orderInfo')}
+            onClick={() => {
+              authContext.setLoadingFalse();
+              history.push('/orderInfo');
+            }}
           >
             پرداخت
           </Button>

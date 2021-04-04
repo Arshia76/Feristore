@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
   image: {
     width: '100%',
-    height: '20rem',
+    height: '15rem',
     [theme.breakpoints.down('sm')]: {
       height: '10rem',
     },
@@ -117,6 +117,7 @@ const PopularProductItem = ({ product }) => {
           <Button
             onClick={async () => {
               await productContext.productDetail(product._id);
+              productContext.setLoading();
               history.push(`/detail/${product._id}`);
             }}
             className={classes.button}

@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     direction: 'rtl',
   },
   image: {
-    height: '18rem',
+    height: '15rem',
     [theme.breakpoints.down('sm')]: {
       height: '10rem',
     },
@@ -110,6 +110,7 @@ const CategoryItem = ({ product }) => {
           <Button
             onClick={async () => {
               await productContext.productDetail(product._id);
+              productContext.setLoading();
               history.push(`/detail/${product._id}`);
             }}
             className={classes.button}

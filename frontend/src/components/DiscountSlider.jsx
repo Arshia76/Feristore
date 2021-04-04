@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
   image: {
     width: '100%',
-    height: '20rem',
+    height: '15rem',
     [theme.breakpoints.down('sm')]: {
       height: '10rem',
     },
@@ -98,6 +98,7 @@ const DiscountSlider = () => {
                           src={product.image}
                           onClick={async () => {
                             await productContext.productDetail(product._id);
+                            productContext.setLoading();
                             history.push(`/detail/${product._id}`);
                           }}
                         />

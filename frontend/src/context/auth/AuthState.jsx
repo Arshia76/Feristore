@@ -9,7 +9,7 @@ const AuthState = (props) => {
     token: null,
     isAuthenticated: false,
     error: null,
-    loading: false,
+    loading: true,
     user: null,
     id: null,
     isAdmin: false,
@@ -87,6 +87,12 @@ const AuthState = (props) => {
     });
   };
 
+  const setLoadingFalse = () => {
+    dispatch({
+      type: types.AUTH_LOADING_FALSE,
+    });
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -103,6 +109,7 @@ const AuthState = (props) => {
         loadUser,
         clearErrors,
         setLoading,
+        setLoadingFalse,
       }}
     >
       {props.children}
