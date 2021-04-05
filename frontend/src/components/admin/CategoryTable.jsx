@@ -7,6 +7,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import CategoryContext from '../../context/category/CategoryContext';
+import ProductContext from '../../context/products/ProductContext';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import InfoIcon from '@material-ui/icons/Info';
@@ -48,14 +49,14 @@ const useStyles = makeStyles((theme) => ({
 const CategoryTable = () => {
   const classes = useStyles();
   const categoryContext = useContext(CategoryContext);
+  const productContext = useContext(ProductContext);
   const history = useHistory();
   const [page, setPage] = useState(1);
 
   useEffect(() => {
     categoryContext.getCategories(10, page);
-
     //eslint-disable-next-line
-  }, [categoryContext.loading, `${categoryContext.category}`]);
+  }, []);
 
   useEffect(() => {
     if (categoryContext.error) {
@@ -101,6 +102,7 @@ const CategoryTable = () => {
                       cursor: 'pointer',
                     }}
                     onClick={() => {
+                      categoryContext.setLoading();
                       categoryContext.deleteCategory(row._id);
                     }}
                   />
@@ -110,7 +112,10 @@ const CategoryTable = () => {
                       color: 'blue',
                       cursor: 'pointer',
                     }}
-                    onClick={() => history.push(`/categories/${row.category}`)}
+                    onClick={() => {
+                      productContext.setLoading();
+                      history.push(`/categories/${row.category}`);
+                    }}
                   />
                 </StyledTableCell>
               </StyledTableRow>

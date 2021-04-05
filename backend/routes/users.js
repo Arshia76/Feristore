@@ -92,7 +92,9 @@ router.put(
 router.delete('/:id/delete', authorize, async (req, res) => {
   try {
     const user = await User.findByIdAndRemove(req.params.id);
-    return res.status(200).json({ msg: 'کاربر با موفقیت حذف گردید.' });
+    return res
+      .status(200)
+      .json({ msg: 'کاربر با موفقیت حذف گردید.', id: user._id });
   } catch (err) {
     return res.status(500).json({ msg: 'خطای سرور' });
   }

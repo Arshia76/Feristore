@@ -9,7 +9,10 @@ const CategoryState = (props) => {
     loading: true,
     error: null,
     message: '',
-    category: [],
+    category: {
+      results: [],
+      pages: null,
+    },
   };
 
   const [state, dispatch] = useReducer(CategoryReducer, initialState);

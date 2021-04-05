@@ -11,6 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import CategoryContext from '../../context/category/CategoryContext';
 
 import { toast } from 'react-toastify';
+import Loader from '../../components/Loader/Loader';
 
 const useStyles = makeStyles({
   root: {
@@ -82,15 +83,15 @@ const ManageCategory = ({ location, history }) => {
     category: type === 'ایجاد دسته بندی' ? '' : category.category,
   });
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
     if (type === 'ایجاد دسته بندی') {
       categoryContext.setLoading();
-      categoryContext.createCategory(state);
+      await categoryContext.createCategory(state);
       history.push('/admin/categories');
     } else {
       categoryContext.setLoading();
-      categoryContext.updateCategory(category._id, state);
+      await categoryContext.updateCategory(category._id, state);
       history.push('/admin/categories');
     }
   };
@@ -118,9 +119,13 @@ const ManageCategory = ({ location, history }) => {
             onChange={onChange}
           />
 
-          <Button type='submit' onClick={submit} className={classes.button}>
-            {type === 'ایجاد دسته بندی' ? 'ایجاد' : 'بروز رسانی'}
-          </Button>
+          {categoryContext.loading ? (
+            <Loader btn />
+          ) : (
+            <Button type='submit' onClick={submit} className={classes.button}>
+              {type === 'ایجاد دسته بندی' ? 'ایجاد' : 'بروز رسانی'}
+            </Button>
+          )}
         </FormControl>
       </Box>
     </Container>

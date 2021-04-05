@@ -68,7 +68,9 @@ router.put(
 router.delete('/category/:id/delete', async (req, res) => {
   try {
     const data = await Category.findByIdAndDelete(req.params.id);
-    return res.status(200).json({ msg: 'دسته بندی با موفقیت حذف شد' });
+    return res
+      .status(200)
+      .json({ msg: 'دسته بندی با موفقیت حذف شد', id: data._id });
   } catch (err) {
     return res.status(500).json({ msg: 'خطای سرور' });
   }

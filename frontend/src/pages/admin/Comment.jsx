@@ -85,9 +85,10 @@ const Comment = ({ match }) => {
                       color: 'red',
                       cursor: 'pointer',
                     }}
-                    onClick={() =>
-                      reviewContext.deleteComment(match.params.id, row._id)
-                    }
+                    onClick={() => {
+                      reviewContext.setLoading();
+                      reviewContext.deleteComment(match.params.id, row._id);
+                    }}
                   />
                 </StyledTableCell>
               </StyledTableRow>

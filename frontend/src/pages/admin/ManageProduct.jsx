@@ -16,6 +16,7 @@ import {
 import CategoryContext from '../../context/category/CategoryContext';
 import ProductContext from '../../context/products/ProductContext';
 import { toast } from 'react-toastify';
+import Loader from '../../components/Loader/Loader';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -133,7 +134,7 @@ const ManageProduct = ({ history, location }) => {
     });
   };
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
     const formdata = new FormData();
     formdata.append('name', state.name);
@@ -147,11 +148,11 @@ const ManageProduct = ({ history, location }) => {
     formdata.append('discount', state.discount);
     if (type === 'ایجاد محصول') {
       productContext.setLoading();
-      productContext.createProduct(formdata);
+      await productContext.createProduct(formdata);
       history.push('/admin/products');
     } else {
       productContext.setLoading();
-      productContext.updateProduct(id, formdata);
+      await productContext.updateProduct(id, formdata);
       history.push('/admin/products');
     }
   };
@@ -285,9 +286,13 @@ const ManageProduct = ({ history, location }) => {
               onChange={onChange}
             />
           </FormGroup>
-          <Button type='submit' onClick={submit} className={classes.button}>
-            {type === 'ایجاد محصول' ? 'ایجاد محصول' : 'بروز رسانی محصول'}
-          </Button>
+          {productContext.loading ? (
+            <Loader btn />
+          ) : (
+            <Button type='submit' onClick={submit} className={classes.button}>
+              {type === 'ایجاد محصول' ? 'ایجاد محصول' : 'بروز رسانی محصول'}
+            </Button>
+          )}
         </FormControl>
       </Box>
     </Container>

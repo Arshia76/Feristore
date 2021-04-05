@@ -58,7 +58,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Profile = () => {
+const Profile = ({ match }) => {
   const classes = useStyles();
   const userContext = useContext(UserContext);
   const authContext = useContext(AuthContext);
@@ -80,9 +80,10 @@ const Profile = () => {
     } else if (userContext.message !== '') {
       toast.success(userContext.message);
     }
+
     fun();
     //eslint-disable-next-line
-  }, [authContext, authContext.error, userContext.error, userContext.message]);
+  }, [authContext.error, userContext.error, userContext.message, match]);
 
   const [state, setState] = useState({
     username: userContext.user && userContext.user.username,

@@ -72,6 +72,7 @@ const Register = ({ history }) => {
       toast.error(authContext.error.msg || authContext.error.errors[0].msg);
     }
     authContext.clearErrors();
+    authContext.setLoadingFalse();
     userContext.getUser(authContext.id);
     authContext.isAuthenticated && history.push('/');
     //eslint-disable-next-line

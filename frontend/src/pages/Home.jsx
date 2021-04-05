@@ -4,13 +4,15 @@ import Slider from '../components/Slider';
 import PopularProducts from '../components/PopularProducts';
 import { toast } from 'react-toastify';
 import ProductContext from '../context/products/ProductContext';
-import OrderContext from '../context/orders/OrderContext';
+import AuthContext from '../context/auth/AuthContext';
+import UserContext from '../context/users/UserContext';
 import DiscountSlider from '../components/DiscountSlider';
 import { Fragment } from 'react';
 
 const Home = () => {
   const productContext = useContext(ProductContext);
-  const orderContext = useContext(OrderContext);
+  const userContext = useContext(UserContext);
+  const authContext = useContext(AuthContext);
 
   useEffect(() => {
     if (productContext.error) {
@@ -28,24 +30,23 @@ const Home = () => {
     productContext.getDiscountProducts();
 
     //eslint-disable-next-line
-  }, [`${productContext.discountedProducts}`]);
-
-  useEffect(() => {
-    orderContext.getAllOrders();
-    //eslint-disable-next-line
   }, []);
 
   useEffect(() => {
     productContext.getNewProducts();
 
     //eslint-disable-next-line
-  }, [`${productContext.newProducts}`]);
+  }, []);
 
   useEffect(() => {
     productContext.getSpecialProducts(6, 1);
 
     //eslint-disable-next-line
-  }, [`${productContext.specialProducts}`]);
+  }, []);
+
+  useEffect(() => {
+    userContext.getUser(authContext.id);
+  });
 
   return (
     <Container style={{ marginTop: '4rem' }} maxWidth='xl'>

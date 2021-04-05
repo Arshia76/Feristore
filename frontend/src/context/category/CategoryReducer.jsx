@@ -22,7 +22,10 @@ const CategoryReducer = (state, action) => {
         ...state,
         loading: false,
         error: null,
-        category: [...state.category.results, action.payload],
+        category: {
+          results: [...state.category.results, action.payload],
+          pages: Math.ceil(state.category.results.length / 10),
+        },
       };
 
     case types.ADD_CATEGORY_FAIL:
@@ -37,9 +40,12 @@ const CategoryReducer = (state, action) => {
         ...state,
         loading: false,
         error: null,
-        category: state.category.results.map((cat) =>
-          cat._id === action.payload._id ? action.payload : cat
-        ),
+        category: {
+          results: state.category.results.map((cat) =>
+            cat._id === action.payload._id ? action.payload : cat
+          ),
+          pages: Math.ceil(state.category.results.length / 10),
+        },
       };
 
     case types.UPDATE_CATEGORY_FAIL:
@@ -54,9 +60,12 @@ const CategoryReducer = (state, action) => {
         ...state,
         loading: false,
         error: null,
-        category: state.category.results.filter(
-          (cat) => cat._id !== action.payload
-        ),
+        category: {
+          results: state.category.results.filter(
+            (cat) => cat._id !== action.payload.id
+          ),
+          pages: Math.ceil(state.category.results.length / 10),
+        },
       };
 
     case types.CATEGORY_LOADING:

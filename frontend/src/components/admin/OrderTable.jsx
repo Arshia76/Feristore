@@ -70,7 +70,7 @@ const OrderTable = () => {
   useEffect(() => {
     orderContext.getAllOrders(10, page);
     //eslint-disable-next-line
-  }, [`${orderContext.orders}`, orderContext.loading]);
+  }, []);
 
   return (
     <TableContainer>
@@ -89,16 +89,10 @@ const OrderTable = () => {
           ) : (
             orderContext.orders.results &&
             orderContext.orders.results.map((row) => (
-              <StyledTableRow key={row !== undefined && row._id}>
-                <StyledTableCell align='right'>
-                  {row !== undefined && row._id}
-                </StyledTableCell>
-                <StyledTableCell align='right'>
-                  {row !== undefined && row.payDate}
-                </StyledTableCell>
-                <StyledTableCell align='right'>
-                  {row !== undefined && row.sentDate}
-                </StyledTableCell>
+              <StyledTableRow key={row._id}>
+                <StyledTableCell align='right'>{row._id}</StyledTableCell>
+                <StyledTableCell align='right'>{row.payDate}</StyledTableCell>
+                <StyledTableCell align='right'>{row.sentDate}</StyledTableCell>
                 <StyledTableCell align='right'>
                   <Link
                     className={classes.link}
@@ -109,10 +103,10 @@ const OrderTable = () => {
                   {row !== undefined && row.sentDate !== 'ارسال نشده' ? null : (
                     <p
                       className={classes.link}
-                      onClick={() => {
+                      onClick={async () => {
                         orderContext.setLoading();
-                        orderContext.updateSentDate(row._id);
-                        orderContext.getAllOrders(10, page);
+                        await orderContext.updateSentDate(row._id);
+                        await orderContext.getAllOrders(10, page);
                         window.scrollTo(0, 0);
                       }}
                     >

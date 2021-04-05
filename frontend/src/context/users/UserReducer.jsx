@@ -63,7 +63,12 @@ const UserReducer = (state, action) => {
         ...state,
         error: null,
         loading: false,
-        users: state.users.filter((user) => user._id !== action.payload),
+        users: {
+          results: state.users.results.filter(
+            (user) => user._id !== action.payload.id
+          ),
+          pages: Math.ceil(state.users.results.length / 10),
+        },
       };
 
     case types.DELETE_USER_FAIL:

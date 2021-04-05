@@ -49,7 +49,7 @@ const CustomerTable = () => {
   useEffect(() => {
     userContext.getUsers(10, page);
     //eslint-disable-next-line
-  }, [`${userContext.users}`, userContext.loading]);
+  }, []);
   return (
     <TableContainer>
       <MyTable className={classes.table} aria-label='customized table'>
@@ -77,7 +77,9 @@ const CustomerTable = () => {
                       cursor: 'pointer',
                     }}
                     onClick={() => {
+                      userContext.setLoading();
                       userContext.deleteUser(row._id);
+                      userContext.getUser(row._id);
                     }}
                   />
                 </StyledTableCell>

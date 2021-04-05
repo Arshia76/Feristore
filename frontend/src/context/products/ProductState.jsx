@@ -8,7 +8,10 @@ const ProductState = (props) => {
   const initialState = {
     error: null,
     loading: true,
-    products: [],
+    products: {
+      results: [],
+      pages: null,
+    },
     product: {},
     message: '',
     newProducts: [],

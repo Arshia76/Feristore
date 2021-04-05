@@ -9,7 +9,10 @@ const UserState = (props) => {
     user: null,
     error: null,
     loading: true,
-    users: [],
+    users: {
+      results: [],
+      pages: null,
+    },
     message: '',
   };
 

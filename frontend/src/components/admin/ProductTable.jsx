@@ -11,6 +11,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import InfoIcon from '@material-ui/icons/Info';
 import CommentIcon from '@material-ui/icons/Comment';
 import ProductContext from '../../context/products/ProductContext';
+import ReviewContext from '../../context/review/ReviewContext';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Loader from '../Loader/Loader';
@@ -58,13 +59,14 @@ const useStyles = makeStyles((theme) => ({
 const ProductTable = () => {
   const classes = useStyles();
   const productContext = useContext(ProductContext);
+  const reviewContext = useContext(ReviewContext);
   const history = useHistory();
   const [page, setPage] = useState(1);
   useEffect(() => {
     productContext.getAllProducts(10, page);
 
     //eslint-disable-next-line
-  }, [`${productContext.products}`, productContext.loading]);
+  }, []);
 
   useEffect(() => {
     if (productContext.error) {
@@ -123,6 +125,7 @@ const ProductTable = () => {
                       cursor: 'pointer',
                     }}
                     onClick={() => {
+                      productContext.setLoading();
                       productContext.deleteProduct(row._id);
                       productContext.getAllProducts(10, page);
                     }}
@@ -133,7 +136,10 @@ const ProductTable = () => {
                       color: 'blue',
                       cursor: 'pointer',
                     }}
-                    onClick={() => history.push(`/detail/${row._id}`)}
+                    onClick={() => {
+                      productContext.setLoading();
+                      history.push(`/detail/${row._id}`);
+                    }}
                   />
                   <CommentIcon
                     style={{
@@ -141,7 +147,10 @@ const ProductTable = () => {
                       color: 'green',
                       cursor: 'pointer',
                     }}
-                    onClick={() => history.push(`/product/${row._id}/comments`)}
+                    onClick={() => {
+                      reviewContext.setLoading();
+                      history.push(`/product/${row._id}/comments`);
+                    }}
                   />
                 </StyledTableCell>
               </StyledTableRow>

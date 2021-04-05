@@ -3,6 +3,7 @@ import { Box, Button, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import OrderContext from '../context/orders/OrderContext';
 import CartContext from '../context/cart/CartContext';
+import Loader from '../components/Loader/Loader';
 
 const useStyles = makeStyles({
   root: {
@@ -142,6 +143,8 @@ const Payment = ({ history }) => {
 
     //eslint-disable-next-line
   }, [orderContext.order]);
+
+  if (orderContext.loading) return <Loader />;
 
   return (
     <Grid container className={classes.root} spacing={4}>

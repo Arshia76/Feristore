@@ -67,7 +67,10 @@ const ProductReducer = (state, action) => {
         ...state,
         error: null,
         loading: false,
-        products: [...state.products.results, action.payload],
+        products: {
+          results: [...state.products.results, action.payload],
+          pages: Math.ceil(state.products.results.length / 10),
+        },
       };
 
     case types.CREATE_PRODUCT_FAIL:
@@ -83,9 +86,13 @@ const ProductReducer = (state, action) => {
         loading: false,
         error: null,
         message: action.payload.msg,
-        products: state.products.results.filter(
-          (product) => product._id !== action.payload._id
-        ),
+        products: {
+          results: state.products.results.filter(
+            (product) => product._id !== action.payload.id
+          ),
+
+          pages: Math.ceil(state.products.results.length / 10),
+        },
       };
 
     case types.DELETE_PRODUCT_FAIL:
@@ -101,9 +108,13 @@ const ProductReducer = (state, action) => {
         ...state,
         loading: false,
         error: null,
-        products: state.products.results.map((product) =>
-          product._id === action.payload._id ? action.payload : product
-        ),
+        products: {
+          results: state.products.results.map((product) =>
+            product._id === action.payload._id ? action.payload : product
+          ),
+
+          pages: Math.ceil(state.products.results.length / 10),
+        },
       };
 
     case types.UPDATE_PRODUCT_FAIL:

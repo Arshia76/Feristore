@@ -79,6 +79,7 @@ const Login = ({ history }) => {
     }
 
     authContext.clearErrors();
+    authContext.setLoadingFalse();
     userContext.getUser(authContext.id);
     authContext.isAuthenticated && history.push('/');
     //eslint-disable-next-line
