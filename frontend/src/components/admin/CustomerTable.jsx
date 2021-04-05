@@ -79,7 +79,7 @@ const CustomerTable = () => {
                     onClick={() => {
                       userContext.setLoading();
                       userContext.deleteUser(row._id);
-                      userContext.getUser(row._id);
+                      userContext.getUsers(10, page);
                     }}
                   />
                 </StyledTableCell>

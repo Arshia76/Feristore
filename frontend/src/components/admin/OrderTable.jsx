@@ -94,19 +94,16 @@ const OrderTable = () => {
                 <StyledTableCell align='right'>{row.payDate}</StyledTableCell>
                 <StyledTableCell align='right'>{row.sentDate}</StyledTableCell>
                 <StyledTableCell align='right'>
-                  <Link
-                    className={classes.link}
-                    to={`/orderDetail/${row !== undefined && row._id}`}
-                  >
+                  <Link className={classes.link} to={`/orderDetail/${row._id}`}>
                     جزئیات
                   </Link>
-                  {row !== undefined && row.sentDate !== 'ارسال نشده' ? null : (
+                  {row.sentDate !== 'ارسال نشده' ? null : (
                     <p
                       className={classes.link}
-                      onClick={async () => {
+                      onClick={() => {
                         orderContext.setLoading();
-                        await orderContext.updateSentDate(row._id);
-                        await orderContext.getAllOrders(10, page);
+                        orderContext.updateSentDate(row._id);
+                        orderContext.getAllOrders(10, page);
                         window.scrollTo(0, 0);
                       }}
                     >

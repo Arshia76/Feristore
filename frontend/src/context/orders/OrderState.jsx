@@ -152,7 +152,6 @@ const OrderState = (props) => {
     try {
       const res = await axios.put(`/api/orders/update/sentDate/${id}`, null, {
         headers: {
-          'Content-Type': 'application/json',
           'auth-token': localStorage.getItem('auth-token'),
         },
       });
