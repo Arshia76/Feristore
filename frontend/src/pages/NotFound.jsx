@@ -2,8 +2,14 @@ import React from 'react';
 
 const NotFound = () => {
   return (
-    <div style={{ textAlign: 'center' }}>
-      <h3>صفحه مورد نظر یافت نشد.</h3>
+    <div
+      style={{
+        display: 'grid',
+        placeItems: 'center',
+        marginTop: '15rem',
+      }}
+    >
+      <h1 style={{ color: 'black' }}>صفحه مورد نظر یافت نشد</h1>
     </div>
   );
 };
