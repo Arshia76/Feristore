@@ -11,6 +11,7 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     marginTop: '1rem',
+    marginBottom: '1.5rem',
     padding: '1.5rem',
     boxShadow: '1rem 1rem 1rem #c0afdb',
     height: 'max-content',
@@ -58,7 +59,7 @@ const Cart = ({ history }) => {
 
   return (
     <Container className={classes.root}>
-      <Grid spacing={2} container>
+      <Grid spacing={2} container justify='center'>
         <Grid item className={classes.secondBox} xs={12} sm={9} md={8}>
           {cartContext.cart.length === 0 ? (
             <Box
@@ -90,7 +91,7 @@ const Cart = ({ history }) => {
             })
           )}
         </Grid>
-        <Grid item xs={12} sm={3} md={3} className={classes.firstBox}>
+        <Grid item xs={8} sm={3} md={3} className={classes.firstBox}>
           <Box className={classes.innerBox}>
             <Typography>تعداد محصولات :</Typography>
             <Typography>

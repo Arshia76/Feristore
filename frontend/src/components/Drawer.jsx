@@ -88,6 +88,9 @@ const Drawer = ({ open, handleClose }) => {
         {authContext.isAdmin ? 'ادمین' : ' دسته بندی'}
       </Typography>
       <List className={classes.list}>
+        <Link to='/' onClick={() => productContext.setLoading()}>
+          <ListItemText className={classes.listItem}>صفحه اصلی</ListItemText>
+        </Link>
         {!authContext.isAdmin &&
           categoryContext.category.results &&
           categoryContext.category.results.map((category) => {

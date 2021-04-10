@@ -24,13 +24,18 @@ const useStyles = makeStyles((theme) => ({
   card: {
     direction: 'rtl',
     height: '100%',
+    margin: 'auto',
     boxShadow: '.1rem .1rem .1rem rgba(0,0,0,.5)',
+    [theme.breakpoints.down('sm')]: {
+      width: '75%',
+    },
   },
   image: {
     width: '100%',
     height: '15rem',
     [theme.breakpoints.down('sm')]: {
-      height: '10rem',
+      height: '14rem',
+      width: '50%',
     },
   },
 

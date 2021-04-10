@@ -43,7 +43,13 @@ const Category = ({ match }) => {
           <Typography className={classes.text} variant='h4'>
             {match.params.category}
           </Typography>
-          <Grid direction='row-reverse' container spacing={3}>
+          <Grid
+            direction='row-reverse'
+            container
+            justify='center'
+            align='center'
+            spacing={3}
+          >
             {productContext.products.results &&
             productContext.products.results.length > 0 ? (
               productContext.products.results.map((product) => {

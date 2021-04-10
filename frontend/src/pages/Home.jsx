@@ -45,8 +45,11 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    userContext.getUser(authContext.id);
-  });
+    if (authContext.id !== null) {
+      userContext.getUser(authContext.id);
+    }
+    //eslint-disable-next-line
+  }, [authContext.id]);
 
   return (
     <Container style={{ marginTop: '4rem' }} maxWidth='xl'>

@@ -34,7 +34,13 @@ const PopularProducts = () => {
               <Typography className={classes.text} variant='h4'>
                 محصولات ویژه
               </Typography>
-              <Grid direction='row-reverse' container spacing={3}>
+              <Grid
+                direction='row-reverse'
+                container
+                justify='center'
+                align='center'
+                spacing={3}
+              >
                 {productContext.specialProducts.results &&
                   productContext.specialProducts.results.map((product) => {
                     return (

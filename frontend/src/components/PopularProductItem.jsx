@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     height: '15rem',
     [theme.breakpoints.down('sm')]: {
-      height: '10rem',
+      height: '14rem',
     },
   },
 
@@ -71,7 +71,7 @@ const PopularProductItem = ({ product }) => {
   const cartContext = useContext(CartContext);
 
   return (
-    <Grid className={classes.root} item xs={12} sm={6} md={4}>
+    <Grid className={classes.root} item xs={10} sm={6} md={4}>
       <Card className={classes.card}>
         <CardActionArea>
           <CardMedia
