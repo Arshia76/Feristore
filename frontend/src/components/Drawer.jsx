@@ -6,6 +6,7 @@ import {
   IconButton,
   Typography,
 } from '@material-ui/core';
+import { useLocation } from 'react-router-dom';
 import ClearIcon from '@material-ui/icons/Clear';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
@@ -67,6 +68,8 @@ const Drawer = ({ open, handleClose }) => {
   const userContext = useContext(UserContext);
   const orderContext = useContext(OrderContext);
   const authContext = useContext(AuthContext);
+  const location = useLocation();
+  const { pathname } = location;
 
   useEffect(() => {
     categoryContext.getCategories(1000, 1);
@@ -88,7 +91,10 @@ const Drawer = ({ open, handleClose }) => {
         {authContext.isAdmin ? 'ادمین' : ' دسته بندی'}
       </Typography>
       <List className={classes.list}>
-        <Link to='/' onClick={() => productContext.setLoading()}>
+        <Link
+          to='/'
+          onClick={pathname !== '/' ? () => productContext.setLoading() : null}
+        >
           <ListItemText className={classes.listItem}>صفحه اصلی</ListItemText>
         </Link>
         {!authContext.isAdmin &&
@@ -98,7 +104,11 @@ const Drawer = ({ open, handleClose }) => {
               <Link
                 to={`/categories/${category.category}`}
                 key={category._id}
-                onClick={() => productContext.setLoading()}
+                onClick={
+                  pathname !== `/categories/${category.category}`
+                    ? () => productContext.setLoading()
+                    : null
+                }
               >
                 <ListItemText className={classes.listItem}>
                   {category.category}
@@ -110,25 +120,41 @@ const Drawer = ({ open, handleClose }) => {
           <Fragment>
             <Link
               to='/admin/customers'
-              onClick={() => userContext.setLoading()}
+              onClick={
+                pathname !== '/admin/customers'
+                  ? () => userContext.setLoading()
+                  : null
+              }
             >
               <ListItemText className={classes.listItem}>مشتری ها</ListItemText>
             </Link>
             <Link
               to='/admin/products'
-              onClick={() => productContext.setLoading()}
+              onClick={
+                pathname !== '/admin/products'
+                  ? () => productContext.setLoading()
+                  : null
+              }
             >
               <ListItemText className={classes.listItem}>محصولات</ListItemText>
             </Link>
             <Link
               to='/admin/userorders'
-              onClick={() => orderContext.setLoading()}
+              onClick={
+                pathname !== '/admin/userorders'
+                  ? () => orderContext.setLoading()
+                  : null
+              }
             >
               <ListItemText className={classes.listItem}>سفارش ها</ListItemText>
             </Link>
             <Link
               to='/admin/categories'
-              onClick={() => categoryContext.setLoading()}
+              onClick={
+                pathname !== '/admin/categories'
+                  ? () => categoryContext.setLoading()
+                  : null
+              }
             >
               <ListItemText className={classes.listItem}>
                 دسته بندی
