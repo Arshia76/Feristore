@@ -381,18 +381,24 @@ const Detail = ({ match }) => {
             onChange={(value) => setState({ ...state, rating: value })}
           />
         </Box>
-        <Button
-          style={{ margin: '1rem 0' }}
-          variant='outlined'
-          onClick={() => {
-            reviewContext.setLoading();
-            reviewContext.createReview(match.params.id, state);
+        {authContext.isAuthenticated ? (
+          <Button
+            style={{ margin: '1rem 0' }}
+            variant='outlined'
+            onClick={() => {
+              reviewContext.setLoading();
+              reviewContext.createReview(match.params.id, state);
 
-            setState({ rating: '', review: '' });
-          }}
-        >
-          ثبت
-        </Button>
+              setState({ rating: '', review: '' });
+            }}
+          >
+            ثبت
+          </Button>
+        ) : (
+          <Typography variant='h6' style={{ margin: '1rem 0' }}>
+            برای ثبت نظر وارد سایت شوید
+          </Typography>
+        )}
       </Container>
     </Fragment>
   );
