@@ -1,4 +1,5 @@
 import React, { Fragment, useContext } from 'react';
+import Utility from '../utils/Utility';
 import {
   Box,
   Typography,
@@ -101,7 +102,9 @@ const CartItem = ({
         />
         <Typography>{name}</Typography>
         <Box className={classes.innerBox}>
-          <Typography style={{ marginLeft: '.3rem' }}>{price}</Typography>
+          <Typography style={{ marginLeft: '.3rem' }}>
+            {Utility.formatMoney(price)}
+          </Typography>
           <Typography>تومان</Typography>
         </Box>
         <FormControl style={{ margin: '.5rem' }}>

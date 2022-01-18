@@ -25,6 +25,16 @@ const useStyles = makeStyles({
     border: '1px solid grey',
     padding: '0.5rem 1rem',
     backgroundColor: '#c2b2d1',
+    width: '30%',
+    '@media(max-width:1100px)': {
+      width: '40%',
+    },
+    '@media(max-width:768px)': {
+      width: '60%',
+    },
+    '@media(max-width:600px)': {
+      width: '80%',
+    },
   },
 
   form: {
@@ -112,13 +122,14 @@ const Login = ({ history }) => {
                 name='email'
                 type='email'
                 label='ایمیل'
+                style={{ width: '100%' }}
                 inputProps={{ style: { textAlign: 'right' } }}
                 variant='outlined'
                 onChange={onChange}
               />
               <TextField
                 name='password'
-                style={{ textAlign: 'right' }}
+                style={{ textAlign: 'right', width: '100%' }}
                 type='password'
                 label='رمز عبور'
                 inputProps={{ style: { textAlign: 'right' } }}

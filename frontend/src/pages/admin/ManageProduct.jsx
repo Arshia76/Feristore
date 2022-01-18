@@ -182,7 +182,7 @@ const ManageProduct = ({ history, location }) => {
           />
           <TextField
             name='price'
-            type='number'
+            type='text'
             value={state.price}
             className={classes.textfield}
             label='قیمت'

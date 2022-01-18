@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect, Fragment } from 'react';
+import Utility from '../utils/Utility';
 import { useHistory } from 'react-router-dom';
 import {
   Container,
@@ -241,7 +242,7 @@ const Detail = ({ match }) => {
           <hr className={classes.hr} />
           <Box className={classes.innerBox}>
             <Typography style={{ marginLeft: '.3rem' }}>
-              {productContext.product.price}
+              {Utility.formatMoney(productContext.product.price)}
             </Typography>
             <Typography>تومان</Typography>
           </Box>

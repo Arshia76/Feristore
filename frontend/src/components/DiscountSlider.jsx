@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import Utility from '../utils/Utility';
 import OwlCarousel from 'react-owl-carousel';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
@@ -25,7 +26,8 @@ const useStyles = makeStyles((theme) => ({
     direction: 'rtl',
     height: '100%',
     margin: 'auto',
-    boxShadow: '.1rem .1rem .1rem rgba(0,0,0,.5)',
+    boxShadow:
+      '3.9px 5.1px 0.7px -100px rgba(0, 0, 0, 0.028),13px 17px 2.2px -100px rgba(0, 0, 0, 0.042),58px 76px 10px -100px rgba(0, 0, 0, 0.07)',
     [theme.breakpoints.down('sm')]: {
       width: '75%',
     },
@@ -117,7 +119,7 @@ const DiscountSlider = () => {
 
                           <Box className={classes.price}>
                             <Typography style={{ marginLeft: '.3rem' }}>
-                              {product.price}
+                              {Utility.formatMoney(product.price)}
                             </Typography>
                             <Typography>تومان</Typography>
                           </Box>

@@ -1,4 +1,5 @@
 import React, { useState, useContext, Fragment, useEffect } from 'react';
+import Utility from '../utils/Utility';
 import QueryString from 'query-string';
 import { Box, Button, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -154,7 +155,7 @@ const OrderDetail = ({ match, history, location }) => {
                   <Typography>قیمت محصولات:</Typography>
                   <Box className={classes.orderPrice}>
                     <Typography style={{ marginLeft: '.3rem' }}>
-                      {orderContext.order.productPrice}
+                      {Utility.formatMoney(orderContext.order.productPrice)}
                     </Typography>
                     <Typography>تومان</Typography>
                   </Box>
@@ -163,7 +164,7 @@ const OrderDetail = ({ match, history, location }) => {
                   <Typography>هزینه ارسال:</Typography>
                   <Box className={classes.orderPrice}>
                     <Typography style={{ marginLeft: '.3rem' }}>
-                      {sendPrice}
+                      {Utility.formatMoney(sendPrice)}
                     </Typography>
                     <Typography>تومان</Typography>
                   </Box>
@@ -172,7 +173,7 @@ const OrderDetail = ({ match, history, location }) => {
                   <Typography>قیمت کل:</Typography>
                   <Box className={classes.orderPrice}>
                     <Typography style={{ marginLeft: '.3rem' }}>
-                      {orderContext.order.totalPrice}
+                      {Utility.formatMoney(orderContext.order.totalPrice)}
                     </Typography>
                     <Typography>تومان</Typography>
                   </Box>
@@ -290,7 +291,11 @@ const OrderDetail = ({ match, history, location }) => {
                           {item.productName}
                         </Typography>
                         <Box className={classes.product}>
-                          <Typography variant='body1'>{`${item.productCount}x${item.productPrice}:`}</Typography>
+                          <Typography variant='body1'>{`${
+                            item.productCount
+                          }x${Utility.formatMoney(
+                            item.productPrice
+                          )}:`}</Typography>
                           <Box className={classes.product}>
                             <Typography
                               variant='body1'
@@ -299,7 +304,9 @@ const OrderDetail = ({ match, history, location }) => {
                                 marginLeft: '.3rem',
                               }}
                             >
-                              {item.productCount * item.productPrice}
+                              {Utility.formatMoney(
+                                item.productCount * item.productPrice
+                              )}
                             </Typography>
                             <Typography variant='body1'>تومان</Typography>
                           </Box>

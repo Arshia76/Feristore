@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import Utility from '../utils/Utility';
 import CartItem from '../components/CartItem';
 import { Container, Box, Typography, Grid, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -104,9 +105,11 @@ const Cart = ({ history }) => {
             <Typography>قیمت محصولات :</Typography>
             <Box className={classes.innerBox}>
               <Typography>
-                {cartContext.cart.reduce((tot, arr) => {
-                  return tot + arr.price * arr.count;
-                }, 0)}
+                {Utility.formatMoney(
+                  cartContext.cart.reduce((tot, arr) => {
+                    return tot + arr.price * arr.count;
+                  }, 0)
+                )}
               </Typography>
               <Typography>تومان</Typography>
             </Box>

@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import Utility from '../utils/Utility';
 import {
   Grid,
   Typography,
@@ -101,7 +102,7 @@ const CategoryItem = ({ product }) => {
             </Box>
             <Box className={classes.price}>
               <Typography style={{ marginLeft: '.3rem' }}>
-                {product.price}
+                {Utility.formatMoney(product.price)}
               </Typography>
               <Typography>تومان</Typography>
             </Box>

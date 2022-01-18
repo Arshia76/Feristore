@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import Utility from '../../utils/Utility';
 import MyTable from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -94,7 +95,9 @@ const ProductTable = () => {
             productContext.products.results.map((row) => (
               <StyledTableRow key={row.name}>
                 <StyledTableCell align='right'>{row.name}</StyledTableCell>
-                <StyledTableCell align='right'>{row.price}</StyledTableCell>
+                <StyledTableCell align='right'>
+                  {Utility.formatMoney(row.price)}
+                </StyledTableCell>
                 <StyledTableCell align='right'>{row.category}</StyledTableCell>
                 <StyledTableCell align='right'>
                   <EditIcon
@@ -104,7 +107,7 @@ const ProductTable = () => {
                         pathname: '/admin/product/manage',
                         state: {
                           name: row.name,
-                          price: row.price,
+                          price: Utility.formatMoney(row.price),
                           description: row.description,
                           countInStock: row.countInStock,
                           productImage: row.productImage,
