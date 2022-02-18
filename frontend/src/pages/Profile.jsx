@@ -25,6 +25,16 @@ const useStyles = makeStyles({
     border: '1px solid grey',
     padding: '0.5rem 1rem',
     backgroundColor: '#c2b2d1',
+    width: '30%',
+    '@media(max-width:1100px)': {
+      width: '40%',
+    },
+    '@media(max-width:768px)': {
+      width: '60%',
+    },
+    '@media(max-width:600px)': {
+      width: '80%',
+    },
   },
 
   form: {
@@ -118,6 +128,7 @@ const Profile = ({ match }) => {
               value={state.username}
               onChange={onChange}
               label='نام کاربری'
+              style={{ width: '100%' }}
               inputProps={{ style: { textAlign: 'right' } }}
               variant='outlined'
             />
@@ -126,13 +137,14 @@ const Profile = ({ match }) => {
               type='email'
               value={state.email}
               onChange={onChange}
+              style={{ width: '100%' }}
               label='ایمیل'
               inputProps={{ style: { textAlign: 'right' } }}
               variant='outlined'
             />
             <TextField
               name='password'
-              style={{ textAlign: 'right' }}
+              style={{ textAlign: 'right', width: '100%' }}
               value={state.password}
               onChange={onChange}
               type='password'
@@ -142,7 +154,7 @@ const Profile = ({ match }) => {
             />
             <TextField
               name='newPassword'
-              style={{ textAlign: 'right' }}
+              style={{ textAlign: 'right', width: '100%' }}
               value={state.newPassword}
               onChange={onChange}
               type='password'
