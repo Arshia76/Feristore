@@ -77,7 +77,7 @@ const CategoryItem = ({ product }) => {
           <CardMedia
             component='img'
             className={classes.image}
-            image={`https://feristore.herokuapp.com/${product.image}`}
+            image={`https://feristore.onrender.com/${product.image}`}
             title='Contemplative Reptile'
           />
           <CardContent className={classes.CardContent}>

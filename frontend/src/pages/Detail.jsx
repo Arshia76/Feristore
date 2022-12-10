@@ -214,7 +214,7 @@ const Detail = ({ match }) => {
         ) : (
           <img
             className={classes.img}
-            src={`https://feristore.herokuapp.com/${productContext.product.image}`}
+            src={`https://feristore.onrender.com/${productContext.product.image}`}
             alt='aks'
           />
         )}
